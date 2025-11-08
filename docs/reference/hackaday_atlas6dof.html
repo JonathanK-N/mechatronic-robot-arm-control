@@ -1,0 +1,2825 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
+<head>
+    
+    
+
+<title>Atlas - 6DOF 3D printed universal robot | Hackaday.io</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#333333">
+<link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="//cdn.hackaday.io/css/style.css?version=1.8.0" />
+<script type="text/javascript" src="//use.typekit.net/ymb0lgk.js"></script>
+<script type="text/javascript">try{Typekit.load({ async: true });}catch(e){}</script>
+    
+
+
+
+
+        <meta name="description" content="An Odrive + steppers based construction, with 5x 3D printed hollow shaft reducers and an internal CAN network.">
+        <link rel="canonical" href="https://hackaday.io/project/168259-atlas-6dof-3d-printed-universal-robot" />
+
+
+        <script type="text/javascript">
+        function getCommentIdFromUrl() {
+            if(window.location.hash) {
+                var hash = window.location.hash.substring(1);
+                var commentId = parseInt(hash.replace('j-discussion-', ''));
+                if (commentId) {
+                    return commentId;
+                }
+            }
+            return null;
+        }
+
+        var commentId = getCommentIdFromUrl();
+        if (commentId) {
+            var url = window.location.href;
+            if (url.indexOf('?') > -1) {
+                url = url.substring(0, url.indexOf('?'));
+            }
+            if (url.indexOf('#') > -1) {
+                url = url.substring(0, url.indexOf('#'));
+            }
+            url += '/discussion-' + commentId;
+            window.location.href = url;
+        }
+    </script>
+    
+
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@hackadayio">
+<meta name="twitter:title" content="Atlas - 6DOF 3D printed universal robot">
+<meta name="twitter:image" content="https://cdn.hackaday.io/images/resize/600x600/5190941578152855266.jpg">
+
+    <meta name="twitter:description" content="Hi,
+I&amp;apos;m creating a 3D printed 6DOF robotic arm (it&amp;apos;s my 3,5th attempt), I&amp;apos;m printing my own cycloidal reducers, all 5 of them are hollow shaft, I&amp;apos;m using 8 encoders, 2x BLDC servos (Odrive), 4x stepper motors. The current state of the project is - I&amp;apos;ve got the robot running, internal communication is working, mechanical side is done, electronics are working as well but still need to be cleaned up, I&amp;apos;m currently learning to use ROS and Moveit! to integrate my robot into the ROS ecosystem.
+
+I&amp;apos;m aiming at sub 0.5mm repeatability without changing load, and sub 2mm repeatability while changing load. 
+
+Load capability is 4.5kg max, 2.5kg what I&amp;#x2019;d call &amp;apos;nominal&amp;apos;. Load is wrist limited, I was able to lift 9.5 kg at 0.5m with the Axis 1, 2, 3 assembly. Considering the mass of the robot that was about 60Nm at Ax2.
+
+Use case - I&amp;#x2019;m trying to make it as versatile as possible, the end effector is easily swappable and has power and CAN">
+
+
+    
+
+
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Atlas - 6DOF 3D printed universal robot">
+<meta property="og:url" content="https://hackaday.io/project/168259-atlas-6dof-3d-printed-universal-robot">
+<meta property="og:image" content="https://cdn.hackaday.io/images/resize/600x600/5190941578152855266.jpg">
+
+    <meta property="og:description" content="Hi, I&#39;m creating a 3D printed 6DOF robotic arm (it&#39;s my 3,5th attempt), I&#39;m printing my own cycloidal reducers, all 5 of them are hollow shaft, I&#39;m using 8 encoders, 2x BLDC servos (Odrive), 4x stepper motors. The current state of the project is - I&#39;ve got the robot running, internal communication is working, mechanical side is done, electronics are working as well but still need to be cleaned up, I&#39;m currently learning to use ROS and Moveit! to integrate my robot into the ROS ecosystem. I&#39;m aiming at sub 0.5mm repeatability without changing load, and sub 2mm repeatability while changing load. Load capability is 4.5kg max, 2.5kg what I’d call &#39;nominal&#39;. Load is wrist limited, I was able to lift 9.5 kg at 0.5m with the Axis 1, 2, 3 assembly. Considering the mass of the robot that was about 60Nm at Ax2. Use case - I’m trying to make it as versatile as possible, the end effector is easily swappable and has power and CAN">
+
+
+
+    <script>
+        var HIO = {
+            data: {
+            role: '',
+            },
+            projectId: 168259,
+            hackadayPrize: {
+                id: 141,
+                key: 'prize2023'
+            },
+            
+            _csrf: 'eEy9sSNp-HFVxNaQwaqIbSdeB6PaQgRWWj9c'
+        };
+    </script>
+</head>
+<body class="project-detail page_v2 ">
+    
+
+<div class="header hfr-has-background-black" id="header">
+    
+    <div class="hfr-container hfr-is-max-widescreen">
+        <nav class="hfr-navbar" role="navigation" aria-label="main navigation">
+            <div class="hfr-navbar-brand">
+                <a href="/" title="Hackaday.io" class="hfr-navbar-item logo">
+                    <img src="/img/logo-squares.png" width="33px" height="23px" alt="Hackaday.io" class="hfr-is-hidden-touch hfr-is-hidden-widescreen">
+                    <img src="/img/hackaday-logo.svg" width="138px" height="17px" alt="Hackaday.io" class="hfr-is-hidden-desktop-only">
+                </a>
+                <a role="button" class="hfr-navbar-burger hfr-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div class="hfr-navbar-menu">
+                <div class="hfr-navbar-start">
+                    <div class="hfr-navbar-item hfr-has-dropdown hfr-is-hoverable">
+                        
+                            <a href="/projects" class="hfr-navbar-item hfr-is-family-secondary ">Projects</a>
+                        
+                    </div>
+                    <a href="/discover" class="hfr-navbar-item hfr-is-family-secondary ">Discover</a>
+                    <a href="/contests" class="hfr-navbar-item hfr-is-family-secondary ">Contests</a>
+                    <a href="/courses" class="hfr-navbar-item hfr-is-family-secondary hfr-is-hidden-desktop-only ">Courses</a>
+                    <a href="/stack" class="hfr-navbar-item hfr-is-family-secondary ">Stack</a>
+                    <div class="hfr-navbar-item hfr-has-dropdown hfr-is-hoverable">
+                        <a class="hfr-navbar-link hfr-is-arrowless hfr-is-family-secondary">More 
+
+
+
+
+    <div class="icon hfr-icon hfr-ml-3 hfr-has-text-grey hfr-is-hidden-touch">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="m8 9.702 4.79-4.79a.707.707 0 1 1 1 .999l-5.14 5.14a.705.705 0 0 1-.652.197.712.712 0 0 1-.646-.196l-5.14-5.14a.703.703 0 0 1-.004-1.002.708.708 0 0 1 1.003.004L8 9.702z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+</a>
+                        <div class="hfr-navbar-dropdown">
+                            <a href="/courses" class="hfr-navbar-item hfr-is-hidden-touch hfr-is-hidden-widescreen">Courses</a>
+                            <a href="/list/159729" class="hfr-navbar-item">Tutorials</a>
+                            <a href="/events" class="hfr-navbar-item">Events</a>
+                            <a href="/hackerspaces" class="hfr-navbar-item">Hackerspaces</a>
+                            
+                            <a href="https://hackaday.com/" target="_blank" rel="noopener noreferrer" class="hfr-navbar-item">Hackaday.com</a>
+                            <a href="https://www.tindie.com/" target="_blank" rel="noopener noreferrer" class="hfr-navbar-item j-store-tracking">Tindie Marketplace</a>
+                        </div>
+                    </div>
+                    <div class="hfr-navbar-item nav search-holder" style="border-left: 1px solid #272727;">
+                        
+<form id="search-form" class="hfr-field hfr-has-addons" action="/search" onsubmit="return submitSearch();" method="GET">
+    <div class="hfr-control">
+        <input type="text" placeholder="Find projects and more" name="term" class="hfr-input hfr-is-static j-add-search t-input-search" id="add-search" value="" autocomplete="off" pattern=".{2,}" required title="Two characters minimum"  />
+    </div>
+    <div class="control">
+        <button type="submit" class="hfr-button button-search" title="Search">
+            
+
+
+
+
+    <div class="icon hfr-icon hfr-is-medium">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M10.542 9.368a4.547 4.547 0 1 0-1.015 1.079c.04.086.094.166.165.237l2.727 2.727a.8.8 0 0 0 1.137.006.801.801 0 0 0-.006-1.136l-2.726-2.727a.812.812 0 0 0-.282-.185zm-1.72-.473a2.91 2.91 0 1 0-4.114-4.116 2.91 2.91 0 0 0 4.114 4.117z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+        </button>
+    </div>
+</form>
+
+                    </div>
+                </div>
+
+                
+                    <div class="hfr-navbar-end">
+                        <div class="hfr-navbar-item">
+                            <div class="hfr-buttons">
+                                <a href="/signup" class="hfr-button hfr-is-primary hfr-is-outlined">Sign up</a>
+                                <a href="/signin?returnUrl=%2Fproject%2F168259-atlas-6dof-3d-printed-universal-robot" class="hfr-button hfr-is-text">Log in</a>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div id="topMessage" class="alert small hide">
+    <span class="j-top-content"></span>
+    <a
+        href="javascript:void(0);"
+        class="alert-close j-top-message-close"
+        title="Close"
+    >
+        
+
+
+
+
+    <div class="icon icon-close-circle">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M10.047 10.658a.562.562 0 0 1-.398-.165L7.984 8.828 6.32 10.493a.562.562 0 0 1-.961-.398.56.56 0 0 1 .164-.398L7.19 8.033 5.523 6.368a.561.561 0 1 1 .795-.796l1.665 1.665L9.65 5.572a.563.563 0 0 1 .795.796L8.78 8.033l1.665 1.664a.562.562 0 0 1-.398.961zm-2.062-7.5a4.875 4.875 0 1 0 .002 9.75 4.875 4.875 0 0 0-.004-9.75zm0 10.875a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+ Close
+    </a>
+</div>
+
+
+
+
+<script>
+    var HIO = HIO || {};
+</script>
+    
+
+
+
+
+    
+
+
+
+    
+    <div class="header-photo" >
+        <div class="overlay"></div>
+    </div>
+
+    <div class="headline" style="background-image: url(https://cdn.hackaday.io/images/resize/1400x500/8009591572659465758.png)">
+    
+
+<div class="headline-image-overlay"></div>
+<div class="progress-holder">
+    <div class="progress">
+        <div class="progress-item">
+            <div class="progress-number foreground">0%</div>
+        </div>
+        <div class="progress-number">0%</div>
+    </div>
+</div>
+    <div class="container">
+        <h1>Atlas - 6DOF 3D printed universal robot</h1>
+        
+
+<p class="description">An Odrive + steppers based construction, with 5x 3D printed hollow shaft reducers and an internal CAN network.</p>
+        <div class="author">
+            <span class="identity-card" data-id="353550"><a href="/dlickindorf"><img     src="https://cdn.hackaday.io/images/resize/24x24/1468671572659078370.PNG"     alt="damian-lickindorf" />Damian Lickindorf</a></span>
+        </div>
+        
+
+
+
+    <div class="project-following-container ">
+        <a href="javascript:void(0)" data-href="/project/168259/event/unfollow" class="gold-gold-button unfollow text-changing-button" data-before="Following" data-after="Unfollow?">
+            Following
+        </a>
+        <a href="javascript:void(0)" data-href="/project/168259/event/follow" class="gold-gold-button follow">
+            Follow project
+        </a>
+    </div>
+
+        
+
+
+
+    <div class="project-skulling-container ">
+        <a href="javascript:void(0)" data-href="/project/168259/event/unskull" class="gold-gold-button unskulled text-changing-button" data-before="Liked" data-after="Unlike?">
+            Liked
+        </a>
+        <a href="javascript:void(0)" data-href="/project/168259/event/skull" class="gold-gold-button skulled">
+            Like project
+        </a>
+    </div>
+
+    </div>
+    <div id="modal-onboarding-back" class="modal-background"></div>
+
+<div class="onboarding-padding-remove onboarding-modal modal-content-holder" id="onboarding-modal">
+    <div class="onboarding-signup">
+        <div class="onboarding-top">
+            <div class="submissions-close modal-close">
+                
+
+
+
+
+    <div class="icon icon-close">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 6.99 4.767 3.76a.714.714 0 1 0-1.01 1.01L6.992 8 3.76 11.233a.714.714 0 1 0 1.01 1.01L8 9.008l3.233 3.232a.714.714 0 1 0 1.01-1.01L9.008 8l3.232-3.233a.714.714 0 1 0-1.01-1.01L8 6.992z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+            </div>
+            <div class="onboarding-holder">
+
+                <div class="headline">
+                    <h1 class="title text-center">Become a Hackaday.io member</h1>
+                    <p class="onboarding-subtitle-signup text-center hidden">
+                        <span>Not a member? You should </span>
+                        <a href="#" id="signup-switch">Sign up.</a>
+                    </p>
+                    <p class="onboarding-subtitle-login text-center">
+                        <span>Already have an account? </span>
+                        <a href="#" id="login-switch">Log in.</a>
+                    </p>
+                </div>
+
+                <div class="onboarding-content signin-holder">
+
+
+                    <div class="signin-left">
+                        <a href="/auth/github" class="sign-in-with-github-button button j-dialog-auth-window">
+                            
+
+
+
+
+    <div class="icon icon-github--signin">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.643 7.513c-.158-.45-.228-.967-.228-1.543 0-1.024.33-1.41.77-1.955-.337-1.167.122-1.965.122-1.965s.71-.142 2.05.79c.728-.303 2.666-.328 3.584-.068.563-.36 1.593-.873 2.008-.73.113.176.355.688.147 1.813.14.247.874.772.877 2.258-.012.548-.07 1.01-.18 1.402.02 0-.14.485-.177.484C12.13 9.034 11.13 9.42 9.52 9.58c.522.32.672.72.672 1.802 0 1.083-.015 1.23-.012 1.478.006.408.623.604.6.736-.023.13-.517.11-.747.032-.654-.22-.588-.75-.588-.75l-.022-1.447s.044-.78-.253-.78v2.37c0 .516.372.672.372.863 0 .327-.68-.03-.888-.235-.32-.31-.283-.97-.275-1.49.006-.502-.006-1.603-.006-1.603l-.216.005s.088 2.403-.114 2.84c-.263.563-1.054.757-1.054.5 0-.172.194-.117.302-.503.093-.33.06-2.78.06-2.78s-.253.146-.253.605c0 .21-.007 1.41-.007 1.767 0 .45-.657.705-.973.705-.16 0-.36-.008-.36-.09 0-.208.602-.33.602-.762 0-.375-.008-1.34-.008-1.34s-.304.052-.736.052c-1.09 0-1.435-.675-1.6-1.053a1.859 1.859 0 0 0-.784-.908c-.18-.113-.222-.247-.013-.285.966-.175 1.212 1.063 1.857 1.26.46.14 1.052.08 1.346-.105.04-.378.32-.705.554-.877-1.64-.153-2.612-.705-3.116-1.593-.005 0-.236-.482-.217-.482z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                            <span class="onboardingCaption">Sign up</span> with Github
+                        </a>
+                        <a href="/auth/twitter" class="sign-in-with-twitter-button button j-dialog-auth-window">
+                            
+
+
+
+
+    <div class="icon icon-twitter--signin">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M10.725 2.04c1.2-.022 1.837.406 2.447.946.517-.044 1.19-.324 1.586-.52.128-.07.256-.138.385-.207-.226.595-.533 1.062-1.004 1.416-.106.08-.21.186-.34.237v.007c.67-.007 1.225-.304 1.75-.463v.007c-.276.428-.65.863-1.05 1.175l-.482.374c.008.692-.01 1.355-.144 1.94-.773 3.388-2.82 5.688-6.064 6.674-1.165.355-3.046.5-4.38.175-.662-.16-1.26-.34-1.82-.58a7.252 7.252 0 0 1-.877-.44l-.272-.162c.302.01.654.09.99.038.305-.048.604-.035.884-.094.7-.15 1.322-.35 1.858-.653.26-.15.654-.324.838-.537a2.706 2.706 0 0 1-.92-.16c-1.002-.346-1.585-.98-1.964-1.933.303.032 1.177.11 1.38-.058-.38-.02-.748-.236-1.01-.397C1.71 8.333 1.053 7.51 1.058 6.24c.106.048.21.1.317.147.202.083.408.127.65.177.102.02.305.078.423.037h-.015c-.156-.176-.41-.296-.567-.484-.517-.628-1-1.592-.695-2.74.08-.29.202-.55.334-.785l.015.007c.06.122.193.214.278.316.264.32.59.607.92.86 1.132.862 2.15 1.39 3.785 1.784.415.1.894.175 1.39.177-.14-.395-.095-1.035.015-1.42.275-.96.874-1.654 1.752-2.025a3.8 3.8 0 0 1 .687-.208c.126-.013.252-.027.378-.043" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                            <span class="onboardingCaption">Sign up</span> with Twitter
+                        </a>
+                        <span class="or-separator">OR</span>
+                    </div>
+
+
+                    <div class="signin-right">
+
+                        <form method="POST" action="/signupfast">
+                            <div class="signin-controls">
+                                <div class="signin-control">
+                                    <input
+                                        id="onboarding-email"
+                                        type="text" 
+                                        class="input-field" 
+                                        placeholder="Enter your email address" 
+                                        required 
+                                        name="email"
+                                        
+                                    />
+                                </div>
+                                <div class="signin-control">
+                                    <input
+                                        id="onboarding-pass"
+                                        type="password" 
+                                        class="input-field" 
+                                        placeholder="Pick a secure password" 
+                                        required name="password" 
+                                         
+                                    />
+                                </div>
+                                <div class="bottom remember-me hidden">    
+                                    <input
+                                        id="rememberMe"
+                                        class="checkbox"
+                                        type="checkbox"
+                                        name="rememberMe"
+                                        value="remember-me"
+                                        checked
+                                    >
+                                    <label for="rememberMe">Remember me</label>
+                                </div>
+
+
+                                <input id="captchaInput" type="text" class="input-field onboarding-modal-captcha" placeholder="Enter captcha" name="captcha" autocomplete="new-password" style="width: -webkit-calc(100% - 115px);"/>
+                                <img src="/captcha.jpg#1762629888578" id="captchaUrl" style="vertical-align: middle;" class="onboarding-modal-captcha"/>
+                                <div class="signin-control">
+                                    <button
+                                        class="input-field gold-gold-button button-signin"
+                                        type="submit">
+                                        <span class="onboardingCaption">Sign up</span>
+                                    </button>
+                                    <div class="bottom signin-empty-bottom hidden"></div>
+                                </div>
+
+                                <div class="bottom forgot-password hidden">
+                                    <a href="/forgotpass" id="forgot-pass-link" class="forgot-pass">Forgot your password?</a>
+                                </div>
+                            </div>
+
+                            <input 
+                                type="hidden" 
+                                name="source" 
+                                value="/project : like/follow modal" 
+                            />
+                            <input 
+                                type="hidden" 
+                                name="_csrf" 
+                                value="eEy9sSNp-HFVxNaQwaqIbSdeB6PaQgRWWj9c" 
+                            />
+                            <input 
+                                type="hidden" 
+                                class="input-field" 
+                                placeholder="Invitation Code" 
+                                required name="invitation_code"
+                                value="5Ad0ix2-b96J"
+                            />
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="j-modal-form-message-background">
+            <div class='j-modal-form-message'></div>
+        </div>
+
+    </div>
+
+    <div class="onboarding-top onboarding-interests">
+        <div class="submissions-close modal-close">
+            
+
+
+
+
+    <div class="icon icon-close">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 6.99 4.767 3.76a.714.714 0 1 0-1.01 1.01L6.992 8 3.76 11.233a.714.714 0 1 0 1.01 1.01L8 9.008l3.233 3.232a.714.714 0 1 0 1.01-1.01L9.008 8l3.232-3.233a.714.714 0 1 0-1.01-1.01L8 6.992z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+        </div>
+
+        <div class="headline">
+            <h1 class="title text-center">Just one more thing</h1>
+            <p class="subtitle text-center">
+                To make the experience fit your profile, pick a username and tell us what interests you.
+            </p>
+        </div>
+
+        <div class="j-modal-form-message-background">
+            <div class='j-modal-form-message'></div>
+        </div>
+
+        <div class="container" id="username-interests-modal">
+            <div class="control-label">Pick an awesome username</div>
+            <div class="username">
+                <div class="prefixed-input-container">
+                    <img src="/img/link.svg" alt="" class="icon-link">
+                    <div class="prefixed-input"><div 
+                        class="prefixed-input-prefix">hackaday.io/</div><input
+                            type="text" 
+                            class="input-field prefixed-input-field" 
+                            placeholder="username" 
+                            id="usernameModal"
+                            name="username"
+                            maxlength="25"
+                            value=""
+                            required 
+                        />
+                    </div>
+                    <img src="/img/complete-circle.svg" alt="" class="icon-complete-circle" style="display: none">
+                </div>
+                <div class="placeholder">
+                    <div class="urlhint">Your profile&#39;s URL: hackaday.io/<strong>username</strong>. Max 25 alphanumeric characters.</div>
+                </div>
+            </div>
+            
+            <div id="interests-list">
+                <div class="control-label">Pick a few interests</div>
+                <ul class="interests-list force-scroll-y interests-list-modal list-terms-ul">
+                </ul>
+            </div>
+
+            
+            <div id="selected">
+                <div class="control-label"> Projects that share your interests </div>
+
+                <div id="interests-projects-frame" class="force-scroll-y">
+                    <ul class="interests-list-mini list-projects">
+                    </ul>
+                </div>
+
+                <div class="control-label"> People that share your interests </div>
+
+                <div id="interests-people-frame" class="force-scroll-y">
+                    <ul class="interests-list-mini list-people">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-static">
+            <div class="stats container">
+                <div id="footer-found-text">
+                    <p style="margin-bottom: 0" class="stats-text hide">
+                        <span>We found </span>
+                        <span style="color: #AE8E4F; cursor:pointer;" class="refine-projects"></span>
+                        <span> and </span>
+                        <span style="color:#AE8E4F; cursor: pointer;" class="refine-people"></span>
+                        <span>based on your interests.</span>
+                    </p>
+                    <p style="margin-bottom: 0" class="more-interests hide">
+                        <a href="javascript:void(0)" id="back" style="cursor:pointer;">
+                            Choose more interests.
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="feed-button">
+                    <a href="javascript:void(0)" id="done" class="interests-button grey-grey-button">
+                        OK, I&#39;m done!
+                    </a>
+                    <a href="javascript:void(0)" id="skipUsernameInterests" class="interests-button gold-gold-button">
+                        Skip
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="project-join-top ">
+        
+
+
+
+
+
+
+        
+
+
+
+
+    <a href="javascript:void(0)"
+        
+            class="login-button button-upload"
+        
+    >
+        <span>Join this project</span>
+        
+
+
+
+
+    <div class="icon icon-join">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g fill-rule="evenodd"><path d="M9.516 13.71H1.93v-1.34c0-.4 1.035-.984 2.63-1.558 1.587-.572 2.095-1.055 2.095-2.088 0-.62-.485-.418-.698-1.553-.09-.47-.518-.007-.6-1.082 0-.43.234-.536.234-.536s-.12-.634-.165-1.122c-.06-.608.354-2.18 2.56-2.18 2.204 0 2.617 1.572 2.56 2.18-.047.488-.166 1.122-.166 1.122s.234.107.234.536c-.082 1.075-.51.612-.6 1.083-.212 1.137-.697.934-.697 1.554 0 .53.135.917.48 1.243a2.999 2.999 0 0 0-.284 3.743z"/><path d="M11.992 14.516a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5zm1.482-2.17a.33.33 0 0 0 0-.66h-1.098V10.59a.33.33 0 1 0-.66 0v1.097H10.62a.329.329 0 0 0-.33.33c0 .18.147.33.33.33h1.097v1.097a.33.33 0 0 0 .66 0v-1.098h1.097z"/></g></svg>
+        
+    </div>
+
+
+    </a>
+
+
+
+
+    </div>
+</div>
+
+    
+
+<div id="similars">
+    <div class="similars-header">
+        Similar projects worth following
+        <a href="javascript:void(0)" class="submissions-close">
+            
+
+
+
+
+    <div class="icon icon-close">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 6.99 4.767 3.76a.714.714 0 1 0-1.01 1.01L6.992 8 3.76 11.233a.714.714 0 1 0 1.01 1.01L8 9.008l3.233 3.232a.714.714 0 1 0 1.01-1.01L9.008 8l3.232-3.233a.714.714 0 1 0-1.01-1.01L8 6.992z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+        </a>
+    </div>
+    <div class="container"></div>
+</div>
+    <div class="project-menu-details-holder">
+    <div class="container">
+        <div class="content-left">
+            <div class="section-profile-stats">
+                
+
+
+
+
+    <div class="stat-one view-count">
+        <span title="View Count">84.5k</span>
+        <small>views</small>
+    </div>
+
+                
+
+
+
+
+<div class="stat-one comment_count">
+    <a href="javascript:void(0)">
+        <span title="Comments">13</span>
+        <small>comments</small>
+    </a>
+</div>
+
+                
+
+
+
+
+    <div class="stat-one follower_count">
+        
+            <a href="/hackers/all/project/168259/following">
+        
+            <span title="Followers">2.5k</span>
+            <small>followers</small>
+        
+            </a>
+        
+    </div>
+
+                
+
+
+
+
+    <div class="stat-one like_count">
+        
+            <a href="/hackers/all/project/168259/likers">
+        
+            <span title="Likes">589</span>
+            <small>likes</small>
+        
+            </a>
+        
+    </div>
+
+            </div>
+        </div>
+
+        <div class="content-right">
+            <ul class="project-menu">
+                
+
+
+
+<li>
+    
+        <a href="#menu-description" class=" menu-scroll active">Description</a>
+    
+</li>
+                
+
+
+
+<li>
+    
+        <a href="#menu-details" class="menu-add-content menu-scroll">Details</a>
+        
+    
+</li>
+                
+
+
+
+<li>
+    
+        <a href="#menu-files" class="menu-add-content menu-scroll">Files <span>21</span></a>
+        <ul class="menu-add-content-dropdown">
+            
+            <li><a href="/project/168259/files" class="grey-gold-button very-small-button">View all</a></li>
+        </ul>
+    
+</li>
+                
+
+
+
+
+    <li>
+        
+            Components <span>0</span>
+        
+    </li>
+
+                
+
+
+
+<li>
+    
+        <a href="#menu-logs" class="menu-add-content menu-scroll">Logs <span>9</span></a>
+        <ul class="menu-add-content-dropdown">
+            
+            <li>
+                <a href="/project/168259/logs" class="grey-gold-button very-small-button">
+                    View all
+                </a>
+            </li>
+        </ul>
+    
+</li>
+                
+
+
+
+
+    <li>
+        
+            Instructions <span>0</span>
+        
+    </li>
+
+                
+
+
+
+<li>
+    
+        <a href="#j-discussions-title" class="menu-scroll">
+            Discussion <span>13</span>
+        </a>
+    
+</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+    <div class="container">
+        <div class="content-left">
+    
+
+
+
+
+
+    
+
+
+
+
+
+    <a
+        href="/project/168259/gallery#f426912e1a2b8b53ef3aee2485acff13"
+        id="project-image"
+        class="image-holder image-holder-project lazy"
+        data-src="https://cdn.hackaday.io/images/resize/600x600/5190941578152855266.jpg"
+        data-image="https://cdn.hackaday.io/images/resize/600x600/5190941578152855266.jpg"
+    ></a>
+
+
+
+    <div class="thumbs-holder">
+        
+            
+                <a href="/project/168259/gallery#f426912e1a2b8b53ef3aee2485acff13"
+                class="image-holder thumb lazy"
+                data-src="https://cdn.hackaday.io/images/resize/600x600/5190941578152855266.jpg"
+                data-image="https://cdn.hackaday.io/images/resize/600x600/5190941578152855266.jpg"
+                ></a>
+            
+                <a href="/project/168259/gallery#ea96a28f467f8fa800a9f242333bd42a"
+                class="image-holder thumb lazy"
+                data-src="https://cdn.hackaday.io/images/resize/600x600/7921871578152884168.png"
+                data-image="https://cdn.hackaday.io/images/resize/600x600/7921871578152884168.png"
+                ></a>
+            
+                <a href="/project/168259/gallery#4b4f8922c5692beb86f73da32c16d4a3"
+                class="image-holder thumb thumb-last lazy"
+                data-src="https://cdn.hackaday.io/images/resize/600x600/6634371572658328849.png"
+                data-image="https://cdn.hackaday.io/images/resize/600x600/6634371572658328849.png"
+                ></a>
+            
+                <a href="/project/168259/gallery#097b921ad5cd00aee1bb2cf3e6270406"
+                class="image-holder thumb lazy"
+                data-src="https://cdn.hackaday.io/images/resize/600x600/7132551572658124826.PNG"
+                data-image="https://cdn.hackaday.io/images/resize/600x600/7132551572658124826.PNG"
+                ></a>
+            
+                <a href="/project/168259/gallery#7206c09c2c9350c64007c9d07a71eb01"
+                class="image-holder thumb lazy"
+                data-src="https://cdn.hackaday.io/images/resize/600x600/9550631578153076873.png"
+                data-image="https://cdn.hackaday.io/images/resize/600x600/9550631578153076873.png"
+                ></a>
+            
+                <a href="/project/168259/gallery#b3bfacf18cf0acef94019b26eac2e941"
+                class="image-holder thumb thumb-last lazy"
+                data-src="https://cdn.hackaday.io/images/resize/600x600/2175561578153084969.png"
+                data-image="https://cdn.hackaday.io/images/resize/600x600/2175561578153084969.png"
+                ></a>
+            
+        
+    </div>
+
+
+
+    
+        <div class="view-gallery-holder">
+            <a href="/project/168259/gallery">
+                <div class="view-gallery grey-gold-button very-small-button">View Gallery</div>
+            </a>
+        </div>
+    
+
+    
+
+
+
+
+    
+
+
+
+
+
+    
+
+
+
+
+
+
+    
+
+
+
+<aside class="section section-project-stats">
+    
+        <div class="icon-view-count" title="View Count">
+            
+
+
+
+
+    <div class="icon icon-eye">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.014 12.122c4.036 0 7.002-4.146 7.002-4.146S11.694 3.83 8.014 3.83c-3.68 0-7.002 4.146-7.002 4.146s2.965 4.146 7.002 4.146zm0-1.572a2.573 2.573 0 1 0-.002-5.146 2.573 2.573 0 0 0 .002 5.146zm0-1a1.573 1.573 0 0 0 0-3.146 1.572 1.572 0 0 0 0 3.145z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+            <span class="view_count">84.5k</span>
+        </div>
+    
+    <div class="action-comment-with-hover" title="Comments">
+        <a href="#j-discussions-title">
+            
+
+
+
+
+    <div class="icon icon-comment">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.312 2.038c3.832 0 6.167 2.303 6.167 5.14 0 2.842-2.336 5.113-6.168 5.113-.467 0-.923-.14-1.364-.204-1.785 2.32-4.598 1.863-4.598 1.863 1.987-.968 1.947-2.57 1.594-2.783-1.56-.944-2.498-2.38-2.498-3.988 0-2.84 3.034-5.142 6.866-5.142" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+            <span class="comment_count">13</span>
+        </a>
+    </div>
+    
+        <div class="action-view" title="Followers">
+            
+                <a href="/hackers/all/project/168259/following">
+            
+                
+
+
+
+
+    <div class="icon icon-users">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M9.48 10.79c.347-.278.478-.604.478-1.068 0-.496-.396-.335-.57-1.243-.073-.378-.423-.007-.49-.868 0-.343.19-.428.19-.428s-.096-.507-.134-.898c-.047-.486.29-1.743 2.094-1.743 1.802 0 2.14 1.257 2.093 1.743-.037.39-.134.898-.134.898s.19.085.19.428c-.066.86-.416.49-.49.867-.173.908-.57.746-.57 1.242 0 .826.416 1.212 1.715 1.67 1.303.46 2.15.927 2.15 1.246v1.072H0v-1.34c0-.4 1.042-.984 2.645-1.558 1.6-.572 2.11-1.054 2.11-2.087 0-.62-.488-.418-.703-1.554-.09-.47-.52-.006-.602-1.082 0-.43.235-.535.235-.535s-.12-.634-.166-1.123c-.06-.608.357-2.18 2.575-2.18 2.22 0 2.635 1.572 2.577 2.18-.047.49-.167 1.123-.167 1.123s.235.106.235.535c-.082 1.076-.513.612-.602 1.083-.214 1.137-.702.934-.702 1.555 0 1.02.497 1.502 2.045 2.064z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                <span class="follower_count">2.5k</span>
+            
+                </a>
+            
+        </div>
+        
+            <div class="action-skull" title="Likes">
+                
+                    <a href="/hackers/all/project/168259/likers">
+                
+                    
+
+
+
+
+    <div class="icon icon-skull">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="m5.508 5.892.583-.582-.68-.627c-.522-.48-.703-.753-.77-1.166a1.694 1.694 0 0 0-1.41-1.395l-.544-.076.524.503.524.5-.51.577c-.28.317-.558.63-.618.7-.062.067-.3-.04-.542-.242-.238-.2-.48-.364-.54-.364-.234 0 .048.726.432 1.11.32.318.53.407.98.41.484 0 .686.1 1.264.613.38.336.697.614.707.617.01.003.28-.257.6-.578zm6.173.045c.635-.55.877-.676 1.292-.675a1.59 1.59 0 0 0 1.49-1.07c.09-.27.136-.514.106-.545-.03-.03-.286.134-.567.365l-.51.42-.606-.665-.607-.665.505-.535.506-.534-.544.083c-.71.108-1.296.69-1.41 1.402-.07.423-.25.688-.826 1.215l-.737.673.52.59c.286.325.54.597.565.604.025.007.396-.29.826-.663zm-2.137 3.52c-.06-.103-.29-.273-.51-.38-.603-.29-.745-.598-.434-.94.376-.418 1.082-.38 1.442.078.34.433.36.71.07 1.12-.244.352-.412.387-.57.12zm-3.82-.12c-.288-.41-.27-.69.07-1.122.36-.457 1.066-.496 1.444-.08.31.344.168.653-.433.943-.22.106-.45.276-.51.378-.158.266-.326.23-.57-.12zm1.85 1.21c0-.378.278-.927.44-.873.194.064.41.78.295.97-.045.072-.138.047-.21-.058-.103-.145-.148-.148-.202-.014-.096.235-.322.217-.322-.026zm-.275.997c0-.24.253-.306.23-.016-.012.18-.015.638.528.655.542.017.49-.384.493-.572.002-.36.246-.28.246.012 0 .296.22.545.6.547.38 0 .38-.323.38-.624 0-.252.146-.59.366-.85.535-.636.736-1.22.736-2.135 0-2.387-2.244-3.872-4.32-2.857-1.917.94-2.3 3.69-.72 5.168.198.184.36.466.36.627.01.535.12.67.554.676.435.007.445-.366.546-.63zm5.458 2.057-.51-.447.567-.654c.31-.36.634-.655.72-.655.084 0 .326.166.538.37.463.442.627.344.39-.23-.277-.666-.894-1.104-1.556-1.104-.47 0-.662-.09-1.108-.515-.323-.31-.563-.45-.6-.353-.032.09-.236.408-.453.706l-.394.544.47.456c.26.25.47.56.47.684 0 .857.754 1.645 1.573 1.646h.402l-.51-.447zm-8.896.24c.443-.23.822-.842.822-1.327 0-.17.195-.51.432-.756l.432-.446-.328-.402c-.18-.222-.4-.52-.487-.662-.148-.246-.18-.237-.618.17-.346.324-.63.45-1.133.503-.77.08-1.256.47-1.456 1.17-.153.533-.03.563.404.1.178-.19.4-.345.494-.345.094 0 .43.294.747.654l.574.653-.518.448-.518.448h.375c.205 0 .555-.094.777-.21z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                    <span class="like_count">589</span>
+                
+                    </a>
+                
+            </div>
+        
+    
+</aside>
+    
+
+
+
+
+
+    <aside class="section section-team">
+        <h2 class="section-title">
+            Team
+            (<span id="contributor-count">1</span>)
+        </h2>
+
+        <ul class="contributors-list">
+            
+                <li>
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf"><img     src="https://cdn.hackaday.io/images/resize/24x24/1468671572659078370.PNG"     alt="damian-lickindorf" />Damian Lickindorf</a></span></span>
+                </li>
+            
+
+            
+
+            
+
+            
+
+            
+        </ul>
+
+        <div class="error-message hide" id="team-error"><p></p></div>
+
+        
+            <input type="hidden" name="HADPrizeSubmission" value="false"/>
+            
+                <a href="javascript:void(0)"
+                   
+                        class="login-button"
+                   
+                >Join this project's team</a>
+            
+        
+    </aside>
+
+    
+
+
+
+
+    
+
+
+
+    
+
+
+    <aside class="section section-links">
+        <ul class="links-list">
+            
+                <li class="links-item">
+                    <a href="https://www.instagram.com/artysta_automatyk/" target="_blank" rel="nofollow noopener">
+                        
+
+
+
+
+    <div class="icon icon-other">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 11.019 4.475 12.87 5.225 9 2.252 6.169l3.995-.607L8 2.007l1.73 3.555 4.04.607L10.835 9l.75 3.87z"/></svg>
+        
+    </div>
+
+
+                        <span>My instagram:</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </aside>
+
+    
+
+
+
+
+    <aside class="section section-tags">
+        
+                <div class="special-tags">
+                    <a href="/projects?tag=hardware" class="tag">
+                        <span class="hardware icon-button"></span>
+                        
+
+
+
+
+    <div class="icon icon-button icon-hardware">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M9.096 10.822a2.52 2.52 0 0 0 3.089 3.108l-1.428-1.428.374-1.4 1.4-.374 1.43 1.428a2.523 2.523 0 0 0-3.22-3.055L7.06 5.42l-.096-.096a2.526 2.526 0 0 0-.613-2.568 2.517 2.517 0 0 0-2.442-.65l1.428 1.428-.375 1.4-1.398.374-1.43-1.428a2.522 2.522 0 0 0 3.108 3.089l3.854 3.852zm-1.715-.528-.416.418c.285.874.08 1.873-.613 2.568-.66.662-1.6.878-2.442.65l1.428-1.428-.375-1.4-1.398-.374-1.428 1.428a2.522 2.522 0 0 1 3.108-3.089l.456-.456 1.683 1.684zM8.48 5.83l.618-.617a2.518 2.518 0 0 1 3.089-3.107l-1.43 1.428.376 1.4 1.4.374 1.43-1.428a2.523 2.523 0 0 1-3.22 3.055l-.578.58L8.478 5.83z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                        <span>hardware</span>
+                    </a>
+                </div>
+
+        
+                <div class="special-tags">
+                    <a href="/projects?tag=ongoing%20project" class="tag">
+                        <span class="progress-circle icon-button"></span>
+                        
+
+
+
+
+    <div class="icon icon-button icon-progress-circle">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.148 8.03a4.876 4.876 0 0 0 8.322 3.446L8.023 8.03V3.153a4.875 4.875 0 0 0-4.875 4.875zm4.875 6a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                        <span>ongoing project</span>
+                    </a>
+                </div>
+
+        
+        
+                <a href="/projects?tag=6dof" class="tag">6dof</a>
+        
+                <a href="/projects?tag=ROBOT" class="tag">ROBOT</a>
+        
+                <a href="/projects?tag=arm" class="tag">arm</a>
+        
+                <a href="/projects?tag=cycloidal" class="tag">cycloidal</a>
+        
+                <a href="/projects?tag=hollow" class="tag">hollow</a>
+        
+                <a href="/projects?tag=shaft" class="tag">shaft</a>
+        
+                <a href="/projects?tag=odrive" class="tag">odrive</a>
+        
+                <a href="/projects?tag=can" class="tag">can</a>
+        
+    </aside>
+
+    
+
+
+
+
+    <aside class="section section-lists">
+        <h2 class="section-title">Related lists</h2>
+        
+            
+            
+
+<div class="section-lists list-items">
+    <a href="/list/168338-awesomeness">
+        <div title="Awesomeness" class="list-item-cover lazy"
+                
+                    data-src="/img/placeholder.png"
+                
+                >
+        </div>
+    </a>
+    <div class="list-item-title">
+        <h4><a href="/list/168338-awesomeness">Awesomeness</a></h4>
+        <p>All that Is awesome and more real extreme creative creations</p>
+    </div>
+</div>
+
+        
+            
+            
+
+<div class="section-lists list-items">
+    <a href="/list/168812-robotic-arm">
+        <div title="Robotic Arm" class="list-item-cover lazy"
+                
+                    data-src="/img/placeholder.png"
+                
+                >
+        </div>
+    </a>
+    <div class="list-item-title">
+        <h4><a href="/list/168812-robotic-arm">Robotic Arm</a></h4>
+        <p>Robotic Arm</p>
+    </div>
+</div>
+
+        
+            
+            
+
+<div class="section-lists list-items">
+    <a href="/list/170342-robotic">
+        <div title="Robotic" class="list-item-cover lazy"
+                
+                    data-src="/img/placeholder.png"
+                
+                >
+        </div>
+    </a>
+    <div class="list-item-title">
+        <h4><a href="/list/170342-robotic">Robotic</a></h4>
+        <p>Divers robotics projects</p>
+    </div>
+</div>
+
+        
+            
+            
+
+<div class="section-lists list-items">
+    <a href="/list/172159-cng-ngh">
+        <div title="công nghệ" class="list-item-cover lazy"
+                
+                    data-src="/img/placeholder.png"
+                
+                >
+        </div>
+    </a>
+    <div class="list-item-title">
+        <h4><a href="/list/172159-cng-ngh">công nghệ</a></h4>
+        <p>Theo dõi nghiên cứu khoa học</p>
+    </div>
+</div>
+
+        
+            
+            
+
+<div class="section-lists list-items">
+    <a href="/list/177866-project-to-build">
+        <div title="Project to build" class="list-item-cover lazy"
+                
+                    data-src="/img/placeholder.png"
+                
+                >
+        </div>
+    </a>
+    <div class="list-item-title">
+        <h4><a href="/list/177866-project-to-build">Project to build</a></h4>
+        <p>list of the project that I like to build some day</p>
+    </div>
+</div>
+
+        
+            
+        
+            <a href="/project/168259-atlas-6dof-3d-printed-universal-robot/lists">Browse related lists</a>
+        
+    </aside>
+
+
+    
+
+
+
+
+    
+
+
+
+<aside class="section section-project-time">
+    <p class="project-time">
+        This project was
+            
+                created on 11/02/2019
+                
+                     and last updated a year ago.
+                
+            
+    </p>
+</aside>
+    
+
+
+
+
+
+</div>
+
+        <div class="content-right project-menu-content">
+
+    
+
+    
+
+
+
+
+    <section class="section section-description">
+        <h2 id="menu-description" class="section-title">Description</h2>
+        <div class="description" style="white-space: pre-wrap;">Hi,
+I&amp;apos;m creating a 3D printed 6DOF robotic arm (it&amp;apos;s my 3,5th attempt), I&amp;apos;m printing my own cycloidal reducers, all 5 of them are hollow shaft, I&amp;apos;m using 8 encoders, 2x BLDC servos (Odrive), 4x stepper motors. The current state of the project is - I&amp;apos;ve got the robot running, internal communication is working, mechanical side is done, electronics are working as well but still need to be cleaned up, I&amp;apos;m currently learning to use ROS and Moveit! to integrate my robot into the ROS ecosystem.
+
+I&amp;apos;m aiming at sub 0.5mm repeatability without changing load, and sub 2mm repeatability while changing load. 
+
+Load capability is 4.5kg max, 2.5kg what I&amp;#x2019;d call &amp;apos;nominal&amp;apos;. Load is wrist limited, I was able to lift 9.5 kg at 0.5m with the Axis 1, 2, 3 assembly. Considering the mass of the robot that was about 60Nm at Ax2.
+
+Use case - I&amp;#x2019;m trying to make it as versatile as possible, the end effector is easily swappable and has power and CAN</div>
+    </section>
+
+    
+
+
+
+
+    <section class="section section-details">
+        <h2 id="menu-details" class="section-title">Details</h2>
+        
+
+        
+            <div class="post-content details-content">
+                <p><p>Detailed technical description:&#xA0;</p><p>&#xA0;(ax1 is the base rotation, ax2 the joint just above it, and so on...)&#xA0;</p><p>&#xA0;For control I use 5X Teensy 3.2 microcontrollers, they are connected together into a single CAN network, (Odrive is also on the same bus). Thanks to that I&#x2019;m running just 5 cables through the entire thing - one for ground, one for 48V, one for 12v, and two for CAN.&#xA0;&#xA0;  Ax2 - Odrive driven BLDC, 2step reduction - 1:5 belt + 1:24 cycloidal, so 1:120,   </p><p>Ax3- Odrive driven&#xA0;BLDC, 2step reduction - 1:4 belt + 1:21 cycloidal, so 1:84,&#xA0;  </p><p>Two encoders per axis for ax2 and 3. One encoder directly on the motor shaft, 8192PPR, used by the Odrive, and another one,&#xA0; 4096PPR on the joint driven by a dedicated belt(by &apos;dedicated belt&apos; I mean one that has no load on it, and is used only to transmit rotation from the reducer output to the encoder - this increases precision in comparison to a belt that would be shared between and encoder and a motor) that is&#xA0;, giving&#xA0;20480PPR for ax2 and 16384 &#xA0;for ax3&#xA0;(1:5 for ax2; 1:4 for ax3). These &#x2018;on joint&#x2019; encoders for ax2 and ax3 are connected&#xA0;to a single teensy, that&apos;s running two separate P loops - one for each axis, the output of these two P loops are two velocity commands for the Odrive. These are sent via CAN.  </p><p> Ax4, 5, 6 - long nema17 steppers, also 2 step reduction, 1:2 belt (adjustable between 1:1 and 1:5 if needed) plus 1:11 cycloidal, so 1:22 total. The reducer I&#x2019;m using here will be open source, it&apos;ll be called OpenCyRe. Each of these 3 wrist axis have their own encoder, driven by a dedicated belt, from the cycloidal gearbox output. The belt increaser is 1:5.25, the encoder is 512PPR, so the resolution of the joint rotation is 2688 for ax4, 5, and 6. Ax5 and ax6 run on the same teensy, and ax4 has its own teensy. That&#x2019;s because the motor for ax5 and ax6 are not moving in relation to each other. The loop is again a simple P loop for all of these, the input is the &#x2018;on joint&#x2019; encoder signal, the output is the frequency at which the stepper is making steps.<span></span>  </p><p>Ax1, single step 1:10 belt reduction, Nema 23 stepper motor, the encoder is a 1600PPR one, on a dedicated belt increaser (53:7) that increases the resolution to 11733 PPR&#xA0;&#xA0;  </p><p>The 5th teensy is used in the pendant, the pendant has 2x 3axis joysticks, which allows control&#xA0;over all degrees&#xA0;of freedom. This teensy is also supposed to be connectable to the pc, allowing position commands to be sent via serial.&#xA0;</p><p>All axis are capable of 15RPM or more, the robot is capable of handling 2.5kg no problem, and up to 4,5kg if slowed down. The reach is 500mm. The positional repeatability is below 0.5 mm without changing the load, I haven&apos;t yet tested repeatability with vs. without load.</p>
+                    
+                </p>
+            </div>
+        
+        <div class="detail-btns">
+            
+                
+            
+        </div>
+    </section>
+
+
+    
+
+
+
+
+    <section class="section section-files">
+        <h2 id="menu-files" class="section-title">Files</h2>
+
+        
+
+        
+            <table class="files-table">
+                <tbody>
+                    
+                        <tr class="component-">
+                            <td class="file-details">
+                                <div class="description">
+                                    <h3 data-href="https://cdn.hackaday.io/files/1682597198793056/Front.jpg">Front.jpg</h3>
+                                    
+                                </div>
+                                <p>
+                                    JPEG Image -
+                                    3.13 MB -
+                                    01/04/2020 at 15:46
+                                    
+                                </p>
+                            </td>
+                            <td></td>
+                            
+                            <td class="file-type file-preview">
+                                <a href="#" class="file-preview-link" data-type="image">
+                                    
+
+
+
+
+    <div class="icon icon-preview">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.014 12.122c4.036 0 7.002-4.146 7.002-4.146S11.694 3.83 8.014 3.83c-3.68 0-7.002 4.146-7.002 4.146s2.965 4.146 7.002 4.146zm0-1.572a2.573 2.573 0 1 0-.002-5.146 2.573 2.573 0 0 0 .002 5.146zm0-1a1.573 1.573 0 0 0 0-3.146 1.572 1.572 0 0 0 0 3.145z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                                    <span class="file-button-description">Preview</span>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        
+                            <tr class="hidden">
+                                <td class="file-preview-holder" colspan="3"></td>
+                            </tr>
+                        
+                    
+                        <tr class="component-">
+                            <td class="file-details">
+                                <div class="description">
+                                    <h3 data-href="https://cdn.hackaday.io/files/1682597198793056/Back.jpg">Back.jpg</h3>
+                                    
+                                </div>
+                                <p>
+                                    JPEG Image -
+                                    3.28 MB -
+                                    01/04/2020 at 15:46
+                                    
+                                </p>
+                            </td>
+                            <td></td>
+                            
+                            <td class="file-type file-preview">
+                                <a href="#" class="file-preview-link" data-type="image">
+                                    
+
+
+
+
+    <div class="icon icon-preview">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.014 12.122c4.036 0 7.002-4.146 7.002-4.146S11.694 3.83 8.014 3.83c-3.68 0-7.002 4.146-7.002 4.146s2.965 4.146 7.002 4.146zm0-1.572a2.573 2.573 0 1 0-.002-5.146 2.573 2.573 0 0 0 .002 5.146zm0-1a1.573 1.573 0 0 0 0-3.146 1.572 1.572 0 0 0 0 3.145z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                                    <span class="file-button-description">Preview</span>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        
+                            <tr class="hidden">
+                                <td class="file-preview-holder" colspan="3"></td>
+                            </tr>
+                        
+                    
+                        <tr class="component-">
+                            <td class="file-details">
+                                <div class="description">
+                                    <h3 data-href="https://cdn.hackaday.io/files/1682597198793056/Encoders setup.png">Encoders setup.png</h3>
+                                    
+                                </div>
+                                <p>
+                                    Portable Network Graphics (PNG) -
+                                    1.65 MB -
+                                    01/04/2020 at 15:46
+                                    
+                                </p>
+                            </td>
+                            <td></td>
+                            
+                            <td class="file-type file-preview">
+                                <a href="#" class="file-preview-link" data-type="image">
+                                    
+
+
+
+
+    <div class="icon icon-preview">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.014 12.122c4.036 0 7.002-4.146 7.002-4.146S11.694 3.83 8.014 3.83c-3.68 0-7.002 4.146-7.002 4.146s2.965 4.146 7.002 4.146zm0-1.572a2.573 2.573 0 1 0-.002-5.146 2.573 2.573 0 0 0 .002 5.146zm0-1a1.573 1.573 0 0 0 0-3.146 1.572 1.572 0 0 0 0 3.145z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                                    <span class="file-button-description">Preview</span>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        
+                            <tr class="hidden">
+                                <td class="file-preview-holder" colspan="3"></td>
+                            </tr>
+                        
+                    
+                        <tr class="component-">
+                            <td class="file-details">
+                                <div class="description">
+                                    <h3 data-href="https://cdn.hackaday.io/files/1682597198793056/OpenCyRe exploded.png">OpenCyRe exploded.png</h3>
+                                    
+                                </div>
+                                <p>
+                                    Portable Network Graphics (PNG) -
+                                    1.51 MB -
+                                    01/04/2020 at 15:46
+                                    
+                                </p>
+                            </td>
+                            <td></td>
+                            
+                            <td class="file-type file-preview">
+                                <a href="#" class="file-preview-link" data-type="image">
+                                    
+
+
+
+
+    <div class="icon icon-preview">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.014 12.122c4.036 0 7.002-4.146 7.002-4.146S11.694 3.83 8.014 3.83c-3.68 0-7.002 4.146-7.002 4.146s2.965 4.146 7.002 4.146zm0-1.572a2.573 2.573 0 1 0-.002-5.146 2.573 2.573 0 0 0 .002 5.146zm0-1a1.573 1.573 0 0 0 0-3.146 1.572 1.572 0 0 0 0 3.145z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                                    <span class="file-button-description">Preview</span>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        
+                            <tr class="hidden">
+                                <td class="file-preview-holder" colspan="3"></td>
+                            </tr>
+                        
+                    
+                        <tr class="component-">
+                            <td class="file-details">
+                                <div class="description">
+                                    <h3 data-href="https://cdn.hackaday.io/files/1682597198793056/Oś 6 przeniesienie napedu kolor.png">Oś 6 przeniesienie napedu kolor.png</h3>
+                                    
+                                </div>
+                                <p>
+                                    Portable Network Graphics (PNG) -
+                                    923.00 kB -
+                                    01/04/2020 at 15:46
+                                    
+                                </p>
+                            </td>
+                            <td></td>
+                            
+                            <td class="file-type file-preview">
+                                <a href="#" class="file-preview-link" data-type="image">
+                                    
+
+
+
+
+    <div class="icon icon-preview">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.014 12.122c4.036 0 7.002-4.146 7.002-4.146S11.694 3.83 8.014 3.83c-3.68 0-7.002 4.146-7.002 4.146s2.965 4.146 7.002 4.146zm0-1.572a2.573 2.573 0 1 0-.002-5.146 2.573 2.573 0 0 0 .002 5.146zm0-1a1.573 1.573 0 0 0 0-3.146 1.572 1.572 0 0 0 0 3.145z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                                    <span class="file-button-description">Preview</span>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        
+                            <tr class="hidden">
+                                <td class="file-preview-holder" colspan="3"></td>
+                            </tr>
+                        
+                    
+                </tbody>
+            </table>
+        
+        <p>
+            
+                    <a href="/project/168259/files" class="grey-gold-button medium-button show">
+                        View all 21 files
+                    </a>
+            
+        </p>
+    </section>
+
+    
+
+
+
+
+    
+
+    
+
+
+
+
+
+
+    <section class="section section-buildlogs">
+        <h2 id="menu-logs" class="section-title">Project Logs
+            
+                <a href="" class="section-collapse j-buildlogs-collapse">
+                    
+
+
+
+
+    <div class="icon icon-arrow-up">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="m8 6.26 4.79 4.79a.706.706 0 1 0 1-.997l-5.14-5.14a.705.705 0 0 0-.652-.197.712.712 0 0 0-.646.196l-5.14 5.14a.707.707 0 1 0 .999.999L8 6.26z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                    
+
+
+
+
+    <div class="icon icon icon-arrow-down hide">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="m8 9.702 4.79-4.79a.707.707 0 1 1 1 .999l-5.14 5.14a.705.705 0 0 1-.652.197.712.712 0 0 1-.646-.196l-5.14-5.14a.703.703 0 0 1-.004-1.002.708.708 0 0 1 1.003.004L8 9.702z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                    <span class="collapse-text">Collapse</span>
+                </a>
+            
+        </h2>
+        
+        <ul class="buildlogs-list j-buildlogs-list post-content details-content">
+        
+            <li  data-order="0" data-id="173131">
+                <h3 class="element-title">
+                    <a href="/project/168259/log/173131-moving-a-camera-along-a-programmed-path-with-footage">Moving a camera along a programmed path (with footage)</a>
+                    
+                </h3>
+                <small class="authorship">
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf">Damian Lickindorf</a></span></span> &bull;
+                    <span class='time-card' style='margin: 0' title='6 years ago'>01/20/2020 at 00:54</span>  &bull;
+                    <a class="gray-link" href="/project/168259/log/173131-moving-a-camera-along-a-programmed-path-with-footage#discussion-list">
+                        0 comments
+                    </a>
+                </small>
+                <div class="summary">
+                    <p><div class="video-container"><iframe style="width: 500px; height: 281px;" src="//www.youtube.com/embed/hwHPWmfU4-U" frameborder="0" allowfullscreen></iframe></div>
+                        
+                    </p>
+                </div>
+            </li>
+        
+            <li  data-order="1" data-id="171655">
+                <h3 class="element-title">
+                    <a href="/project/168259/log/171655-repeatability-testing-in-progress">Repeatability testing in progress</a>
+                    
+                </h3>
+                <small class="authorship">
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf">Damian Lickindorf</a></span></span> &bull;
+                    <span class='time-card' style='margin: 0' title='6 years ago'>12/07/2019 at 22:44</span>  &bull;
+                    <a class="gray-link" href="/project/168259/log/171655-repeatability-testing-in-progress#discussion-list">
+                        1 comment
+                    </a>
+                </small>
+                <div class="summary">
+                    <p><figure><img data-src="https://cdn.hackaday.io/images/9802311575758605176.jpg" class="lazy"></figure>
+                        
+                    </p>
+                </div>
+            </li>
+        
+            <li  data-order="2" data-id="171264">
+                <h3 class="element-title">
+                    <a href="/project/168259/log/171264-inverse-kinematics-with-ros-moveit">Inverse kinematics with ROS Moveit!</a>
+                    
+                </h3>
+                <small class="authorship">
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf">Damian Lickindorf</a></span></span> &bull;
+                    <span class='time-card' style='margin: 0' title='6 years ago'>11/24/2019 at 02:34</span>  &bull;
+                    <a class="gray-link" href="/project/168259/log/171264-inverse-kinematics-with-ros-moveit#discussion-list">
+                        0 comments
+                    </a>
+                </small>
+                <div class="summary">
+                    <p><div class="video-container"><iframe style="width: 500px; height: 281px;" src="//www.youtube.com/embed/SzCy9blCDnU" frameborder="0" allowfullscreen></iframe></div>
+                        
+                    </p>
+                </div>
+            </li>
+        
+            <li  data-order="3" data-id="170999">
+                <h3 class="element-title">
+                    <a href="/project/168259/log/170999-opencyre-reducer-used-on-all-3-wrist-axis-is-now-open-source">OpenCyRe - reducer used on all 3 wrist axis is now Open Source</a>
+                    
+                </h3>
+                <small class="authorship">
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf">Damian Lickindorf</a></span></span> &bull;
+                    <span class='time-card' style='margin: 0' title='6 years ago'>11/16/2019 at 17:16</span>  &bull;
+                    <a class="gray-link" href="/project/168259/log/170999-opencyre-reducer-used-on-all-3-wrist-axis-is-now-open-source#discussion-list">
+                        0 comments
+                    </a>
+                </small>
+                <div class="summary">
+                    <p><figure><img data-src="https://cdn.hackaday.io/images/2323671573925148851.png" class="lazy"></figure><p>Check it out with the files on:</p><p><a href="https://hackaday.io/project/168498-opencyre">https://hackaday.io/project/168498-opencyre</a><br></p>
+                        
+                    </p>
+                </div>
+            </li>
+        
+            <li  data-order="4" data-id="170873">
+                <h3 class="element-title">
+                    <a href="/project/168259/log/170873-repeatability-test-about-02-mm-without-changing-load">Repeatability test - about +/- 0.2 mm without changing load</a>
+                    
+                </h3>
+                <small class="authorship">
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf">Damian Lickindorf</a></span></span> &bull;
+                    <span class='time-card' style='margin: 0' title='6 years ago'>11/13/2019 at 00:23</span>  &bull;
+                    <a class="gray-link" href="/project/168259/log/170873-repeatability-test-about-02-mm-without-changing-load#discussion-list">
+                        0 comments
+                    </a>
+                </small>
+                <div class="summary">
+                    <p><div class="video-container"><iframe style="width: 500px; height: 281px;" src="//www.youtube.com/embed/jBEloKZfoBs" frameborder="0" allowfullscreen></iframe></div>
+                        
+                    </p>
+                </div>
+            </li>
+        
+            <li  data-order="5" data-id="170543">
+                <h3 class="element-title">
+                    <a href="/project/168259/log/170543-some-additional-insights-in-am-interview-by-dan-from-marginally-clever-robots">Some additional insights in am interview by Dan from Marginally Clever Robots. </a>
+                    
+                </h3>
+                <small class="authorship">
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf">Damian Lickindorf</a></span></span> &bull;
+                    <span class='time-card' style='margin: 0' title='6 years ago'>11/03/2019 at 01:26</span>  &bull;
+                    <a class="gray-link" href="/project/168259/log/170543-some-additional-insights-in-am-interview-by-dan-from-marginally-clever-robots#discussion-list">
+                        0 comments
+                    </a>
+                </small>
+                <div class="summary">
+                    <p><p>Go check it out!</p><p><a href="https://www.marginallyclever.com/2019/11/featured-damian-lickindorf/">https://www.marginallyclever.com/2019/11/featured-damian-lickindorf/</a></p>
+                        
+                    </p>
+                </div>
+            </li>
+        
+            <li  data-order="6" data-id="170496">
+                <h3 class="element-title">
+                    <a href="/project/168259/log/170496-be-carefull-with-the-camera">Be carefull with the camera...</a>
+                    
+                </h3>
+                <small class="authorship">
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf">Damian Lickindorf</a></span></span> &bull;
+                    <span class='time-card' style='margin: 0' title='6 years ago'>11/02/2019 at 02:13</span>  &bull;
+                    <a class="gray-link" href="/project/168259/log/170496-be-carefull-with-the-camera#discussion-list">
+                        0 comments
+                    </a>
+                </small>
+                <div class="summary">
+                    <p><div class="video-container"><iframe style="width: 500px; height: 281px;" src="//www.youtube.com/embed/K2V6GuaxM_4" frameborder="0" allowfullscreen></iframe></div>
+                        
+                    </p>
+                </div>
+            </li>
+        
+            <li  data-order="7" data-id="170494">
+                <h3 class="element-title">
+                    <a href="/project/168259/log/170494-lifting-95kg-but-with-ax-1-2-3-only">Lifting 9.5kg - but with ax 1, 2, 3 only</a>
+                    
+                </h3>
+                <small class="authorship">
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf">Damian Lickindorf</a></span></span> &bull;
+                    <span class='time-card' style='margin: 0' title='6 years ago'>11/02/2019 at 02:08</span>  &bull;
+                    <a class="gray-link" href="/project/168259/log/170494-lifting-95kg-but-with-ax-1-2-3-only#discussion-list">
+                        0 comments
+                    </a>
+                </small>
+                <div class="summary">
+                    <p><div class="video-container"><iframe style="width: 500px; height: 281px;" src="//www.youtube.com/embed/lRjS2KceK3M" frameborder="0" allowfullscreen></iframe></div>
+                        
+                    </p>
+                </div>
+            </li>
+        
+            <li  data-order="8" data-id="170493">
+                <h3 class="element-title">
+                    <a href="/project/168259/log/170493-vid-of-all-axis-moving-no-load">Vid of all axis moving, no load</a>
+                    
+                </h3>
+                <small class="authorship">
+                    <span class="gray-link"><span class="identity-card" data-id="353550"><a href="/hacker/353550-damian-lickindorf">Damian Lickindorf</a></span></span> &bull;
+                    <span class='time-card' style='margin: 0' title='6 years ago'>11/02/2019 at 02:06</span>  &bull;
+                    <a class="gray-link" href="/project/168259/log/170493-vid-of-all-axis-moving-no-load#discussion-list">
+                        0 comments
+                    </a>
+                </small>
+                <div class="summary">
+                    <p><div class="video-container"><iframe style="width: 500px; height: 281px;" src="//www.youtube.com/embed/xW5g_zA0YV0" frameborder="0" allowfullscreen></iframe></div>
+                        
+                    </p>
+                </div>
+            </li>
+        
+        </ul>
+        <p class="log-btns">
+            
+            
+                <a href="/project/168259/logs" class="grey-gold-button medium-button show">
+                
+                    View all 9 project logs
+                
+                </a>
+            
+        </p>
+    </section>
+
+    
+
+
+
+
+    
+
+    
+    
+
+
+
+
+    <section class="section section-share">
+        <h2 class="section-title">Enjoy this project?</h2>
+        Share
+        <span class="gray-link">
+            
+
+
+
+
+    <div class="icon icon-link-circle--share">
+        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 16 16"><path d="M10.78 5.371a1.67 1.67 0 0 0-2.357 0L7.33 6.464a1.67 1.67 0 0 0 0 2.356c.076.076.155.14.241.196l.554-.554a.936.936 0 0 1-.26-.177.911.911 0 0 1-.003-1.29l1.093-1.092c.354-.355.935-.355 1.289 0s.354.934 0 1.289l-.818.818c.068.14.158.463.026.999a1.79 1.79 0 0 0 .227-.185l1.093-1.093a1.66 1.66 0 0 0 .007-2.36zM8.547 7.294l-.54.539c.012.007.027.01.038.018a.915.915 0 0 1 .14 1.402l-1.093 1.094c-.355.354-.935.354-1.29 0s-.354-.935 0-1.29l.807-.806c-.075-.177-.14-.501-.022-1.006-.08.056-.159.116-.227.188L5.268 8.526a1.67 1.67 0 0 0 0 2.356c.324.324.75.486 1.18.486s.852-.162 1.18-.486L8.72 9.79a1.67 1.67 0 0 0 0-2.356c-.056-.053-.117-.094-.173-.14zm5.475.747a5.995 5.995 0 0 1-5.996 5.995 5.995 5.995 0 0 1-5.995-5.995 5.995 5.995 0 0 1 5.995-5.995 5.995 5.995 0 0 1 5.996 5.995z"/></svg>
+        
+    </div>
+
+
+        </span>
+        <a href="https://twitter.com/intent/tweet?url=https://hackaday.io/project/168259-atlas-6dof-3d-printed-universal-robot&text=Atlas%20-%206DOF%203D%20printed%20universal%20robot by damian-lickindorf&related=hackadayio&via=hackadayio" target="_blank" alt="Share on twitter" class="gray-link">
+            
+
+
+
+
+    <div class="icon icon-twitter-circle--share">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.023 14.03a6 6 0 1 0-.002-12.002 6 6 0 0 0 .002 12.002zm.834-8.345c-.524.19-.855.683-.818 1.22l.012.208-.21-.025a3.405 3.405 0 0 1-1.994-.983L5.57 5.83l-.07.203c-.15.453-.055.932.26 1.254.167.178.13.203-.16.097-.1-.034-.188-.06-.197-.046-.03.03.072.415.15.568.11.21.332.42.575.542l.206.097-.243.005c-.234 0-.242.004-.217.093.084.275.415.568.783.695l.26.09-.226.134c-.335.195-.73.305-1.123.314-.19.004-.344.02-.344.034 0 .042.51.28.81.373.892.275 1.952.156 2.748-.314.567-.336 1.133-1 1.397-1.645.142-.343.285-.97.285-1.27 0-.196.012-.22.247-.454.137-.135.267-.283.292-.326.042-.08.038-.08-.176-.008-.356.127-.406.11-.23-.08.13-.136.285-.382.285-.454 0-.013-.062.008-.133.047-.076.04-.243.104-.37.143l-.225.072-.206-.14a1.794 1.794 0 0 0-.356-.187 1.43 1.43 0 0 0-.733.017z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+        </a> 
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hackaday.io/project/168259-atlas-6dof-3d-printed-universal-robot" target="_blank" alt="Share on Facebook" class="gray-link">
+            
+
+
+
+
+    <div class="icon icon-facebook-circle--share">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.023 14.03a6 6 0 1 0-.002-12.002 6 6 0 0 0 .002 12.002zm-.847-2.737V8.028h-.674V6.904h.674v-.676c0-.917.38-1.463 1.462-1.463h.9V5.89h-.563c-.42 0-.45.157-.45.45v.563h1.02l-.12 1.125h-.9v3.265h-1.35z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+        </a>
+    </section>
+
+
+    
+    <section class="section last">
+    <h2 id="j-discussions-title" class="section-title">Discussions</h2>
+
+    <form id="j-discussion-add-top" action="/discussions/add" name="add-comment" method="POST" class="skip-global-form discussion-form j-discussion-add hide">
+
+        <textarea placeholder="Add your comment" name="comment" class="redactor-comment textarea-field"></textarea>
+
+        <div class="error-message alert-danger hide" id="addCommentErrorMessageTop"></div>
+
+        <input type="hidden" name="categoryId" value="168259" />
+        <input type="hidden" name="category" value="project" />
+        <input type="hidden" name="_csrf" value="eEy9sSNp-HFVxNaQwaqIbSdeB6PaQgRWWj9c" />
+        <input type="hidden" name="replyTo" value="0" />
+
+        <input type="submit" class="button-grey-gold-medium" value="Post comment" />
+    </form>
+
+    <div id="discussion-list" class="discussion-list">
+        
+<p>
+    <div class="signup-holder textarea-holder">
+        <textarea placeholder="Log In or become a member to leave your comment" name="comment" class="editable input-comment"></textarea>
+    </div>
+    <a href="#" class="button-grey-gold-small login-comment login-button">Log In/Sign up to comment</a>
+</p>
+<div class="modal-content-holder onboarding-modal login-modal" id="login-modal">
+        <div class="onboarding-signup">
+        <div class="onboarding-top">
+    <div class="submissions-close modal-close">
+        
+
+
+
+
+    <div class="icon icon-close">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 6.99 4.767 3.76a.714.714 0 1 0-1.01 1.01L6.992 8 3.76 11.233a.714.714 0 1 0 1.01 1.01L8 9.008l3.233 3.232a.714.714 0 1 0 1.01-1.01L9.008 8l3.232-3.233a.714.714 0 1 0-1.01-1.01L8 6.992z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+    </div>
+
+    <div class="onboarding-holder">
+        <div class="headline">
+            <h1 class="title text-center">
+                Become a  Hackaday.io Member
+            </h1>
+            <p class="text-center">
+                <span>Create an account to leave a comment.</span>
+                <span>Already have an account?</span>
+                <a href="/signin" class="should-link">Log In</a>.
+            </p>
+        </div>
+        <div class="onboarding-content signin-holder">
+            <div class="signin-left">
+                <a href="/auth/github" class="sign-in-with-github-button button j-dialog-auth-window">
+                    
+
+
+
+
+    <div class="icon icon-github--signin">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.643 7.513c-.158-.45-.228-.967-.228-1.543 0-1.024.33-1.41.77-1.955-.337-1.167.122-1.965.122-1.965s.71-.142 2.05.79c.728-.303 2.666-.328 3.584-.068.563-.36 1.593-.873 2.008-.73.113.176.355.688.147 1.813.14.247.874.772.877 2.258-.012.548-.07 1.01-.18 1.402.02 0-.14.485-.177.484C12.13 9.034 11.13 9.42 9.52 9.58c.522.32.672.72.672 1.802 0 1.083-.015 1.23-.012 1.478.006.408.623.604.6.736-.023.13-.517.11-.747.032-.654-.22-.588-.75-.588-.75l-.022-1.447s.044-.78-.253-.78v2.37c0 .516.372.672.372.863 0 .327-.68-.03-.888-.235-.32-.31-.283-.97-.275-1.49.006-.502-.006-1.603-.006-1.603l-.216.005s.088 2.403-.114 2.84c-.263.563-1.054.757-1.054.5 0-.172.194-.117.302-.503.093-.33.06-2.78.06-2.78s-.253.146-.253.605c0 .21-.007 1.41-.007 1.767 0 .45-.657.705-.973.705-.16 0-.36-.008-.36-.09 0-.208.602-.33.602-.762 0-.375-.008-1.34-.008-1.34s-.304.052-.736.052c-1.09 0-1.435-.675-1.6-1.053a1.859 1.859 0 0 0-.784-.908c-.18-.113-.222-.247-.013-.285.966-.175 1.212 1.063 1.857 1.26.46.14 1.052.08 1.346-.105.04-.378.32-.705.554-.877-1.64-.153-2.612-.705-3.116-1.593-.005 0-.236-.482-.217-.482z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+                    <span>Sign up with Github</span>
+                </a>
+                <a href="/auth/twitter" class="sign-in-with-twitter-button button j-dialog-auth-window">
+                    
+
+
+
+
+    <div class="icon icon-twitter--signin">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m9.1 7.1 4.3-4.9h-1L8.7 6.4l-3-4.2H2.3l4.5 6.4-4.5 5.1h1l3.9-4.5 3.1 4.5h3.4M3.7 3h1.6l7.2 10h-1.6"/></svg>
+        
+    </div>
+
+
+                    <span>Sign up with X</span>
+                </a>
+                <span class="or-separator">OR</span>
+            </div>
+                
+            <div class="signin-right">
+                <form id="onboarding-ga" action="/signupfast" method="POST">
+                <input type="text" class="input-field" placeholder="Enter your email address" required name="email"  />
+                <input type="password" class="input-field" placeholder="Pick a secure password" required name="password"  />
+                
+                <input id="captchaInput" type="text" class="input-field onboarding-modal-captcha" placeholder="Enter captcha" name="captcha" autocomplete="new-password" style="width: -webkit-calc(100% - 115px);"/>
+                <img src="/captcha.jpg#1762629888606" id="captchaUrl" style="vertical-align: middle;" class="onboarding-modal-captcha"/>
+                <input type="hidden" name="okay_to_redirect" value="true" />
+
+                <input type="hidden" name="source" value="/project : alternate modal" />
+                <button class="gold-gold-button button-signin" type="submit">Sign up</button>
+                <input type="hidden" name="_csrf" value="eEy9sSNp-HFVxNaQwaqIbSdeB6PaQgRWWj9c" />
+                <input 
+                    type="hidden" 
+                    class="input-field" 
+                    placeholder="Invitation Code" 
+                    required name="invitation_code"
+                    value="5Ad0ix2-b96J"
+                />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+
+</div>
+
+
+
+
+
+    
+    
+
+    <div id="j-discussion-179021" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/1277567">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/default-avatar.png" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="1277567"><a href="/hacker/1277567-sunny">Sunny</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-179021"><span class='time-card' style='margin: 0' title='3 years ago'>09/05/2022 at 02:11</span></a>
+
+                <span id="comment-points-holder-179021" class="hide">
+                    &bull; <span id="comment-points-179021">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-179021-content">
+                    <p>This looks Amazing! Keep going!</p>
+                </div>
+                <p id="comment-179021-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-179021">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-175767" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/1261918">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/1866391654142941847.png" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="1261918"><a href="/hacker/1261918-denis-perepetskiy">denis perepetskiy</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-175767"><span class='time-card' style='margin: 0' title='3 years ago'>06/03/2022 at 19:57</span></a>
+
+                <span id="comment-points-holder-175767" class="hide">
+                    &bull; <span id="comment-points-175767">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-175767-content">
+                    <p>Dear Damian! The project is greate! Thanks for idea.</p><p>2ALL</p><p>Did anyone get the CAD or STL files from the author?</p>
+                </div>
+                <p id="comment-175767-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-175767">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-153477" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/1129712">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/default-avatar.png" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="1129712"><a href="/hacker/1129712-pietro-occhi">Pietro Occhi</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-153477"><span class='time-card' style='margin: 0' title='5 years ago'>11/09/2020 at 19:52</span></a>
+
+                <span id="comment-points-holder-153477" class="hide">
+                    &bull; <span id="comment-points-153477">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-153477-content">
+                    <p>Dear Damian, I am very impressed by your project: it is very great. I want to ask you if you make available stl file for 3d printing it.</p><p>Thank you and good work</p><p>Pietro</p>
+                </div>
+                <p id="comment-153477-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-153477">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-150903" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/953509">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/5291391599562831037.jpeg" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="953509"><a href="/hacker/953509-bjrn-ecke">Björn Ecke</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-150903"><span class='time-card' style='margin: 0' title='5 years ago'>09/08/2020 at 14:52</span></a>
+
+                <span id="comment-points-holder-150903" class="hide">
+                    &bull; <span id="comment-points-150903">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-150903-content">
+                    <p>Thats such a cool Robot. Can you pls share your stl-files. Im Part of a Fablab here in Germany (<a target="_blank" rel="noopener noreferrer" href="http://www.home-wgt.de">www.home-wgt.de</a>) an it would be very very nice to build this robot &lt;3.</p>
+                </div>
+                <p id="comment-150903-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-150903">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-150798" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/911887">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/default-avatar.png" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="911887"><a href="/hacker/911887-bengamzo22">bengamzo22</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-150798"><span class='time-card' style='margin: 0' title='5 years ago'>09/05/2020 at 22:24</span></a>
+
+                <span id="comment-points-holder-150798" class="hide">
+                    &bull; <span id="comment-points-150798">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-150798-content">
+                    <p>Hi you&apos;re amazing and I hope you share more videos with us and I really hope once you finish maybe share the files and instructions with the world. Keep up the good work</p>
+                </div>
+                <p id="comment-150798-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-150798">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-149359" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/891733">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/9565561596351109869.jpeg" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="891733"><a href="/hacker/891733-marcelo-alcantara">Marcelo Alcantara</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-149359"><span class='time-card' style='margin: 0' title='5 years ago'>08/04/2020 at 09:37</span></a>
+
+                <span id="comment-points-holder-149359" class="hide">
+                    &bull; <span id="comment-points-149359">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-149359-content">
+                    <p>Damien</p><p>Amazing project. Please make it available to the community.</p><p>Really want to build this.</p><p>Cheers</p><p>Marcelo</p>
+                </div>
+                <p id="comment-149359-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-149359">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-148432" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/884461">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/3217241594987493532.png" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="884461"><a href="/hacker/884461-roy-de-kleijn">Roy de Kleijn</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-148432"><span class='time-card' style='margin: 0' title='5 years ago'>07/18/2020 at 09:31</span></a>
+
+                <span id="comment-points-holder-148432" class="hide">
+                    &bull; <span id="comment-points-148432">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-148432-content">
+                    <p>How cool is this! are you going to share the STL files/ BOM and description ?</p>
+                </div>
+                <p id="comment-148432-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-148432">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-147287" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/279865">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/default-avatar.png" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="279865"><a href="/hacker/279865-peter">Peter</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-147287"><span class='time-card' style='margin: 0' title='5 years ago'>06/26/2020 at 16:11</span></a>
+
+                <span id="comment-points-holder-147287" class="hide">
+                    &bull; <span id="comment-points-147287">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-147287-content">
+                    <p>Damien, I love that you&apos;ve made and shared this arm. I hope that this project is your pride and joy, because it&apos;s easy to see the huge amounts of time and effort you&apos;ve put into making Atlas what it is now. This is so awesome to see.</p>
+
+<p>I&apos;m going to be part of a team designing an arm as a part of the University Rover Challenge competition, and it&apos;s looking like we&apos;ll at least try prototyping a cycloidal gearbox or two.&#xA0;</p>
+
+<p>So, for cycloidal gearboxes, do you have a go-to bearing or bushing supplier, and have you found any particular benefits of using bushings over bearings or vice versa?&#xA0;</p>
+
+<p>Thanks again for posting this amazing feat of engineering. It&apos;s very inspiring to see such a complex yet well done project.</p>
+                </div>
+                <p id="comment-147287-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-147287">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-146787" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/343846">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/default-avatar.png" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="343846"><a href="/hacker/343846-ryanwallace18">Ryanwallace18</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-146787"><span class='time-card' style='margin: 0' title='5 years ago'>06/16/2020 at 23:53</span></a>
+
+                <span id="comment-points-holder-146787" class="hide">
+                    &bull; <span id="comment-points-146787">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-146787-content">
+                    <p>Damien, I saw in your youtube video the robot is using active compliance for force feedback. Is that a ROS library? How did you implement active compliance?</p>
+                </div>
+                <p id="comment-146787-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-146787">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-139773" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/521627">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/default-avatar.png" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="521627"><a href="/hacker/521627-daniel">Daniel</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-139773"><span class='time-card' style='margin: 0' title='6 years ago'>02/16/2020 at 21:47</span></a>
+
+                <span id="comment-points-holder-139773" class="hide">
+                    &bull; <span id="comment-points-139773">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-139773-content">
+                    <p>Are you programming with Python or Arduino?</p>
+                </div>
+                <p id="comment-139773-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-139773">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-135238" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/387206">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/default-avatar.png" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="387206"><a href="/hacker/387206-flynt-moreland">Flynt Moreland</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-135238"><span class='time-card' style='margin: 0' title='6 years ago'>11/06/2019 at 23:26</span></a>
+
+                <span id="comment-points-holder-135238" class="hide">
+                    &bull; <span id="comment-points-135238">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-135238-content">
+                    <p>Wow! &#xA0;I&apos;m impressed. &#xA0;I hope you take the time to share your design and instructions with the world. &#xA0;I&apos;d certainly consider building one.</p>
+                </div>
+                <p id="comment-135238-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-135238">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-135138" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/2335">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/3186791510010313720.jpg" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="2335"><a href="/hacker/2335-masterofnull">MasterOfNull</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-135138"><span class='time-card' style='margin: 0' title='6 years ago'>11/05/2019 at 01:45</span></a>
+
+                <span id="comment-points-holder-135138" class="hide">
+                    &bull; <span id="comment-points-135138">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-135138-content">
+                    <p>I like...</p><p>The use of lots of small/cheap bearings instead of an expensive (at that size) ring bearing.</p><p>That you planned your wire routing from the start.</p><p>How you took the time to make the finished product the same color scheme as the renderings.&#xA0; :)</p>
+                </div>
+                <p id="comment-135138-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-135138">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+    
+    
+
+    <div id="j-discussion-135137" data-level="1" class="discussions-item" style="margin-left: 0px;">
+        <div class="discussions-item-image">
+
+            <a href="/hacker/22528">
+                <img src="https://cdn.hackaday.io/images/resize/100x100/7975281553632703729.jpeg" alt="">
+            </a>
+
+            
+        </div>
+        <div class="discussions-item-body">
+            <small class="authorship">
+
+                <span class="identity-card" data-id="22528"><a href="/hacker/22528-dan-maloney">Dan Maloney</a></span>
+
+                wrote <a class="gray-link" href="/project/168259-atlas-6dof-3d-printed-universal-robot/discussion-135137"><span class='time-card' style='margin: 0' title='6 years ago'>11/05/2019 at 01:00</span></a>
+
+                <span id="comment-points-holder-135137" class="hide">
+                    &bull; <span id="comment-points-135137">
+                         point
+                    </span>
+                </span>
+
+            </small>
+            <div class="comment-content">
+                <div id="comment-135137-content">
+                    <p>I died a little when that camera took a tumble. But it shows how strong the arm is. Looks great too.</p>
+                </div>
+                <p id="comment-135137-editor" class="hide"></p>
+            </div>
+            <p>
+                <span class="comment-actions" id="actions-135137">
+                    
+                    
+                    &nbsp;
+                </span>
+                <span class="delete-confirm hide"><span class="delete-q">Are you sure?</span> <a href="#" class="delete-yes">yes</a> | <a href="#" class="delete-no">no</a></span>
+            </p>
+        </div>
+    </div>
+
+    
+
+
+
+
+<script type="text/javascript">
+
+    var pageIndex = 0;
+
+
+</script>
+    </div>
+
+    
+
+</section>
+
+
+
+
+</div>
+
+    </div>
+
+    
+
+
+
+
+    
+
+
+
+
+    <div class="page-basic-info-static page-basic-info-static-dark guest-message-signup">
+        <h1>Does this project spark your interest?</h1>
+        <p class="page-basic-info-text"><a href="javascript:void(0)">Become a member</a>  to follow this project and never miss any updates</p>
+        
+
+<div class="signup-holder">
+    <form id="onboarding-ga-footer" method="POST" action="/signup?returnUrl=/project/168259-atlas-6dof-3d-printed-universal-robot">
+        <input type="hidden" name="_csrf" value="eEy9sSNp-HFVxNaQwaqIbSdeB6PaQgRWWj9c" />
+
+        
+        <input
+            type="text"
+            class="input-field input-email"
+            placeholder="Your email address"
+            name="email"
+            
+        /><input
+            type="password"
+            class="input-field input-password"
+            placeholder="Password"
+            name="password"
+        />
+        <input type="text" class="input-field" placeholder="Enter captcha" name="captcha" autocomplete="new-password" style="width: 140px;"/>
+        <img src="/captcha.jpg" style="vertical-align: middle;"/>
+        <a href="javascript:location.reload();" style="font-size: 1.25em;">
+
+
+
+
+    <div class="icon icon-reload">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="m10.346 10.938-.005-.006a3.7 3.7 0 0 1-2.21.728 3.746 3.746 0 0 1-3.74-3.75 3.745 3.745 0 0 1 3.74-3.75c2.022 0 3.67 1.61 3.733 3.625h-1.74l2.243 2.5 2.242-2.5H13.11C13.044 5.08 10.84 2.91 8.13 2.91a4.992 4.992 0 0 0-4.985 5c0 2.76 2.232 5 4.984 5a4.95 4.95 0 0 0 2.744-.826.625.625 0 0 0 .298-.214l.027-.02-.008-.008a.632.632 0 0 0-.523-.993.61.61 0 0 0-.324.088z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+</a>
+        <input
+            type="hidden"
+            name="source"
+            value="/project : footer modal"
+        /><button
+            class="black-gold-button signup"
+            type="submit">
+                Become a member
+        </button>
+        <input
+            required
+            class="input-field"
+            placeholder="Invitation Code"
+            name="invitation_code"
+            
+                value="5Ad0ix2-b96J"
+                type="hidden"
+            
+        />
+    </form>
+</div>
+
+    </div>
+
+
+    <script>
+  window.geoRegion = "AMER";
+  window.env       = "prod";
+</script>
+
+<div id="footer" class="footer">
+  
+    <a href="#header" class="back-to-top">
+      
+
+
+
+
+    <div class="icon icon-long-arrow-up">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8.023 2.03 4.78 5.26h2.688v1.11h1.11V5.26h2.688L8.023 2.03zm-.555 5.505V8.92h1.11V7.534H7.47zm0 2.56v1.383h1.11v-1.384H7.47zm0 2.55v1.384h1.11v-1.385H7.47z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+ Going up?
+    </a>
+  
+
+  <p>
+    <a href="https://hackaday.com/about/">About Us</a>
+    <a href="mailto:projects-contact@hackaday.com">Contact Hackaday.io</a>
+    <a href="/project/37">Give Feedback</a>
+    <a href="/tos">Terms of Use</a>
+    <a href="https://supplyframe.com/company/privacy">Privacy Policy</a>
+    <a href="https://dev.hackaday.io/" target="_blank" rel="noopener noreferrer">Hackaday API</a>
+    
+    <a id="do-not-sell-link" href="#">Do not sell or share my personal information</a>
+    
+  </p>
+  
+  <p><a id="footer--home" href="/">&copy; 2025 Hackaday</a></p>
+
+  
+</div>
+
+
+<script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47229708-1', 'auto');
+
+    var dimensionValue = 'nonregistered';
+    ga('set', 'dimension1', dimensionValue);
+    ga('require', 'displayfeatures');
+
+    ga('send', 'pageview');
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9XKDJZELWD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9XKDJZELWD');
+</script>
+<script>
+    var csrftoken = 'eEy9sSNp-HFVxNaQwaqIbSdeB6PaQgRWWj9c';
+</script>
+
+
+<img
+    src="//analytics.supplyframe.com/trackingservlet/impression?action=pageImpression&amp;zone=HIO_project&amp;extra=logged%3Dfalse%7ChaveAccountCookie%3D0%7C&amp;ab=undefined"
+    alt=""
+    class="sf-impression"
+/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<div class="j-modal-confirmation modal-background"></div>
+<div class="j-modal-confirmation modal-content-holder">
+    <div class="close"><a href="" id="modal-cancel" title="Close"><span class="modal-close">
+        
+
+
+
+
+    <div class="icon icon-close">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 6.99 4.767 3.76a.714.714 0 1 0-1.01 1.01L6.992 8 3.76 11.233a.714.714 0 1 0 1.01 1.01L8 9.008l3.233 3.232a.714.714 0 1 0 1.01-1.01L9.008 8l3.232-3.233a.714.714 0 1 0-1.01-1.01L8 6.992z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+    </span></a></div>
+    <p class="text-center" id="modal-message"></p>
+    <p class="text-center">
+        <a class="grey-grey-button" id="modal-yes" href="javascript:void(0);" data-projecttype="project" data-projectid="168259" data-pageid="" data-pagetype="">Yes, delete it</a>
+        <a class="gold-gold-button" id="modal-cancel" href="">Cancel</a>
+    </p>
+</div>
+    <div id="submission-popup-back"></div>
+    <div id="submission-popup"></div>
+
+    <div id="modal-report-back" class="modal-background"></div>
+<div id="modal-report" class="modal-content-holder container">
+    <a
+        href="javascript:void(0);"
+        class="modal-close"
+        title="Close"
+    >
+        
+
+
+
+
+    <div class="icon icon-close">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 6.99 4.767 3.76a.714.714 0 1 0-1.01 1.01L6.992 8 3.76 11.233a.714.714 0 1 0 1.01 1.01L8 9.008l3.233 3.232a.714.714 0 1 0 1.01-1.01L9.008 8l3.232-3.233a.714.714 0 1 0-1.01-1.01L8 6.992z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+    </a>
+    <form action="/report/project" class="j-modal-form">
+        <h2>Report project as inappropriate</h2>
+
+        <p class="intro-text">
+            You are about to report the project "<b>Atlas - 6DOF 3D printed universal robot</b>", please tell us the reason.
+        </p>
+
+        <textarea name="comment" class="j-report-comment" placeholder="Why do you report the project as inappropriate"></textarea>
+
+        <input type="hidden" name="_csrf" value="eEy9sSNp-HFVxNaQwaqIbSdeB6PaQgRWWj9c" />
+        
+            <input type="hidden" name="projectId" value="168259" />
+        
+        <div class="modal-footer">
+            <input type="submit" value="Report" class="gold-gold-button submit-button"/>
+        </div>
+        <div class='j-modal-form-message'></div>
+    </form>
+    <div class='j-modal-message hide'></div>
+</div>
+
+    
+
+
+<div id="modal-contributor-apply-back" class="modal-background"></div>
+<div id="modal-contributor-apply" class="modal-content-holder container">
+    <a href="javascript:void(0);" class="modal-close">
+        
+
+
+
+
+    <div class="icon icon-close">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 6.99 4.767 3.76a.714.714 0 1 0-1.01 1.01L6.992 8 3.76 11.233a.714.714 0 1 0 1.01 1.01L8 9.008l3.233 3.232a.714.714 0 1 0 1.01-1.01L9.008 8l3.232-3.233a.714.714 0 1 0-1.01-1.01L8 6.992z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+    </a>
+    <form id="contributor-apply-form">
+        <h2>Send message</h2>
+
+        <textarea name="message" class="j-report-comment">
+Hello,
+
+I really like your project and I think I have skills to help you.
+        </textarea>
+        <p class="application-success">Your application has been submitted.</p>
+        <input type="hidden" name="_csrf" value="eEy9sSNp-HFVxNaQwaqIbSdeB6PaQgRWWj9c" />
+        <input type="hidden" name="projectId" value="168259" />
+
+        <div class="modal-footer">
+            <div class="error-message hide" id="contributor-apply-error"><p></p></div>
+            <input type="submit" value="Send" class="gold-gold-button"/>
+        </div>
+    </form>
+</div>
+
+    
+
+<div id="modal-contributor-remove-back" class="modal-background"></div>
+<div id="modal-contributor-remove" class="modal-content-holder container">
+    <a href="javascript:void(0);" class="modal-close">
+        
+
+
+
+
+    <div class="icon icon-close">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 6.99 4.767 3.76a.714.714 0 1 0-1.01 1.01L6.992 8 3.76 11.233a.714.714 0 1 0 1.01 1.01L8 9.008l3.233 3.232a.714.714 0 1 0 1.01-1.01L9.008 8l3.232-3.233a.714.714 0 1 0-1.01-1.01L8 6.992z" fill-rule="evenodd"/></svg>
+        
+    </div>
+
+
+    </a>
+    <form id="contributor-remove-form">
+        <h2>Remove Member</h2>
+        <p>
+            Are you sure you want to remove yourself as
+            a member for this project?
+        </p>
+        <p>Project owner will be notified upon removal.</p>
+        <input type="hidden" name="_csrf" value="eEy9sSNp-HFVxNaQwaqIbSdeB6PaQgRWWj9c" />
+        <input type="hidden" name="projectId" value="168259" />
+        <input type="hidden" name="remove_contributor_id" id="remove_contributor_id"/>
+
+        <div class="modal-footer">
+            <button type="submit" value="Remove" class="grey-grey-button">Remove</button>
+            <button type="button" value="Nevermind" class="gold-gold-button j-modal-close" data-close>Nevermind</button>
+        </div>
+    </form>
+</div>
+
+
+    
+
+    
+
+
+    <script>
+        var usersFromComments = '[{"id":1277567,"username":"algebra","screen_name":"Sunny","avatar_url":"https://cdn.hackaday.io/images/default-avatar.png"},{"id":1261918,"username":"kukuikar","screen_name":"denis perepetskiy","avatar_url":"https://cdn.hackaday.io/images/1866391654142941847.png"},{"id":1129712,"username":"pocchi77","screen_name":"Pietro Occhi","avatar_url":"https://cdn.hackaday.io/images/default-avatar.png"},{"id":953509,"username":"PandaNeo","screen_name":"Björn Ecke","avatar_url":"https://cdn.hackaday.io/images/5291391599562831037.jpeg"},{"id":911887,"username":null,"screen_name":"bengamzo22","avatar_url":"https://cdn.hackaday.io/images/default-avatar.png"},{"id":891733,"username":"Maralc","screen_name":"Marcelo Alcantara","avatar_url":"https://cdn.hackaday.io/images/9565561596351109869.jpeg"},{"id":884461,"username":"rdekleijn","screen_name":"Roy de Kleijn","avatar_url":"https://cdn.hackaday.io/images/3217241594987493532.png"},{"id":279865,"username":"RoboticBatman","screen_name":"Peter","avatar_url":"https://cdn.hackaday.io/images/default-avatar.png"},{"id":343846,"username":"wall0069","screen_name":"Ryanwallace18","avatar_url":"https://cdn.hackaday.io/images/default-avatar.png"},{"id":521627,"username":"Koper90","screen_name":"Daniel","avatar_url":"https://cdn.hackaday.io/images/default-avatar.png"},{"id":387206,"username":"Flyntm","screen_name":"Flynt Moreland","avatar_url":"https://cdn.hackaday.io/images/default-avatar.png"},{"id":2335,"username":"MasterOfNull","screen_name":"MasterOfNull","avatar_url":"https://cdn.hackaday.io/images/3186791510010313720.jpg"},{"id":22528,"username":"DPM","screen_name":"Dan Maloney","avatar_url":"https://cdn.hackaday.io/images/7975281553632703729.jpeg"}]';
+    </script>
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="//cdn.hackaday.io/build/BMYGeAy2cbQWKJq2%2BOUCBAVOetyg1P0mrMh7GwYaeoLfqE9LNsc1HOCGXMHbMX%2B7mrVgUJAq1wVhQbofTVkMkf5zzJMr935mf0bY4fTLnDOPMqP3ob5kuSmfIGRyPoQsuO7G4V9HO57DXFUVFXdu%2FvAlgJyzHJAS094kXQWMM1e0GcF4%2BUWNDySunpU6y76BJybFMdoyl5vbiRc92%2Fy68CDarVhP1lu%2BI70yl9ICk2u3z87F4cq4OBMF8pQkCDt4tFt8fueyF8UUkHqGBMc152ro7WakKgzn92zennDzAy8PnMUDMjg4tFFSm7W9cYvkRwjAPjNhYeUy2wTKoU6hg7LVA2RS94p0RohTMBugohQl%2FPL8aCy6A63g2v4IXThgcyTMT93HI2sGgwPHNTmEDSjQKK1dNkBXzjvJOs2uw9kV2%2FQ9BbsZAv6aXu0IPOkXPJLI4e1WGZ9FGZnHlFAKqSY6IM3FbamHCI%2Bv55e7bX0MJud8U6qCxShqfz4NG9SDljdQBhpz7ByAtx4165OHnhns1YS5WDeYsZhMZO3fwmvw1yzRPH5TxhaIURitdbDpqajCoDavzP9p%2FyW4VsywO7rVzp4%2F%2FSGJY13L%2BIYkxgolbUdSq8wQPvJ6UDfS1s32LoUK4TiLI4QMBuPlW%2BW1XHPyPTzRWWx4cUN8GZty%2BI2C%2FsLM7rKpmTUrlhWXaEW%2Ba8KrGY%2FG7bddpn6%2FGGUwvKd%2FXx8KU%2BzXPFS5Ffo8IEwtGwcvJ%2F5Uk0XAKZ4P2oj6kOSHS20zMMRJsSAILcPLvFiMX9QiodRVXBLsmsIXNIehJr0%2FsumNCpUi8K70vO%2B0Hkz8GtOzw%2FCEBZJ%2BEOJwlycYHz%2B%2FtF0aPl8%2FIc6Zrgnb4%2BnbJgGfGh4zahr%2FENInFKbV8IhbbgaPWX8zcXeGH%2FOWrCS3%2F3baUa2nNis0OsmXpwhPMEm%2Fngap8910fZ9RxCW3ukODz3jIxqTcOJwJjA%3D%3D-1.8.0.js" ></script>
+</body>
+</html>
