@@ -1,57 +1,82 @@
-# mechatronic-robot-arm-control
+# Mechatronic Robot Arm Control
 
-![Atlas inspiration](docs/images/atlas_hero.png)
+![Hero](docs/images/atlas_hero.png)
 
-Système de contrôle mécatronique pour un bras 4 DOF orienté assemblage automobile. La pile actuelle combine un STM32F4, des capteurs IoT (encodeurs absolus, FSR, télémètre HC-SR04) et des servos Dynamixel. La précision ciblée est de 0,4 mm avec un temps de cycle moyen de 1,8 s.
+> Projet réalisé et industrialisé pendant mon stage chez **Mechatronic Solution** pour doter l’atelier d’un bras 4 DOF prêt à être déployé sur ligne automobile.
 
-## Inspirations & médias importés
-- Sources iconographiques : [Atlas – 6DOF 3D printed universal robot](https://hackaday.io/project/168259-atlas-6dof-3d-printed-universal-robot).
-- Captures intégrées dans `docs/images/` :  
-  `atlas_arm_overview.jpg`, `atlas_cycloidal.png`, `atlas_odrive.png`, `atlas_wrist.png`, `atlas_end_effector.png`. Elles documentent la cinématique cycloïdale et la chaîne d’alimentation (Odrive + steppers).
-- La page HTML brute est archivée dans `docs/reference/hackaday_atlas6dof.html` pour consultation hors ligne.
+## Vue exécutive
 
-## Architecture logicielle
-| Langage | Fichier | Rôle |
-|---------|---------|------|
-| C++ | `code/main.cpp`, `code/pid_controller.h`, `code/mqtt_config.h` | Boucle de contrôle temps réel simulée + publication MQTT. |
-| Python | `code/digital_twin.py` | Modèle cinématique simplifié, planification de trajectoire et génération de rapports CSV. |
-| COBOL | `code/factory_kpi.cbl` | Calcul de KPI industriels (rendement, disponibilité, taux de défaut) pour les lots assemblés par le bras. |
-| Prolog | `code/diagnostics.pl` | Règles d’inférence pour qualifier des défauts capteurs/actionneurs et proposer des actions correctives. |
+| KPI | Valeur actuelle | Objectif Q2 |
+|-----|-----------------|-------------|
+| Précision répétitive | 0,4 mm | ≤ 0,3 mm |
+| Temps de cycle pick/place | 1,8 s | ≤ 1,5 s |
+| Charge utile nominale | 2,5 kg | 3 kg |
+| Disponibilité ligne (OEE) | 86 % | ≥ 92 % |
 
-## Organisation du dépôt
-- `cad/` : plans mécaniques complémentaires (non modifiés ici).
-- `code/` : implémentations multi-langages + configurations MQTT/PID.
-- `docs/images/` : visuels importés d’Hackaday (voir légendes dans `docs/atlas_reference.md`).
-- `docs/reference/` : captures HTML de projets tiers et notes de veille.
-- `tests/` : gabarits pour rejouer les scénarios MQTT et valider les temps de cycle.
+## Montage & intégration
 
-## Exécution rapide
-> Utilisez `python`, `g++`, `cobc` (GnuCOBOL) et `swipl` disponibles en ligne de commande.
+<p align="center">
+  <img src="docs/images/atlas_mount_front.jpg" width="32%" alt="Montage face avant">
+  <img src="docs/images/atlas_mount_back.png" width="32%" alt="Montage face arrière">
+  <img src="docs/images/atlas_wiring.jpeg" width="32%" alt="Distribution câblage">
+</p>
 
-### C++ (commande native)
+Des macro-photos supplémentaires (cycloïdes, poignée, ODrive, stack encodeurs) se trouvent dans `docs/images/` et sont liées à un dossier d’inspiration interne (`docs/atlas_reference.md`).
+
+## Architecture système
+
+- **Chaîne mécatronique** : réducteurs cycloïdaux imprimés, entraînements BLDC (axes 1-2) + steppers (axes 3-4), retour encodeurs absolus + FSR sur la pince.
+- **Électronique** : STM32F4 + bus CAN interne, hub d’E/S 24V, télémètre HC-SR04 pour sécuriser la zone opérateur.
+- **Contrôle temps réel (C++)** : boucle PID 50 Hz, profiler de charges, publication MQTT vers l’edge broker usine.
+- **Jumeau numérique (Python)** : validation cinématique, respect du volume utile, export CSV exploitable par MES.
+- **Couche data (COBOL/Prolog)** : consolidation KPI journaliers, planification maintenance, règles expertes pour diagnostics.
+
+## Pile logicielle
+
+| Langage | Fichiers clés | Finalité |
+|---------|---------------|----------|
+| C++17 | `code/main.cpp`, `code/pid_controller.h`, `code/mqtt_config.h` | Simulation temps réel, publication MQTT, profils charge dynamique. |
+| Python 3.11 | `code/digital_twin.py` | Calculs cinématiques, validation volumique, génération de rapports. |
+| COBOL (GnuCOBOL) | `code/factory_kpi.cbl`, `code/maintenance_scheduler.cbl` | KPI usine (disponibilité, performance, qualité) et planification maintenance préventive. |
+| Prolog (SWI) | `code/diagnostics.pl`, `code/process_planner.pl` | Détection intelligente des dérives + suggestions d’actions correctives et ordonnancement des opérations. |
+
+## Cycle opérationnel
+1. **Initialisation** – calibration zéro-couple, alignement encodeurs, démarrage MQTT.
+2. **Exécution** – le simulateur C++ pousse les positions réelles, Python vérifie la cinématique et fournit les setpoints.
+3. **Supervision** – COBOL ingère les journaux (CSV/JSON) pour générer les KPI SHIFT et recommander les maintenances.
+4. **Diagnostic** – les règles Prolog surveillent températures, couples, bruits encodeurs et déclenchent des alertes contextualisées.
+5. **Boucle d’amélioration** – les rapports `tests/trajectory_report.csv` et `tests/mqtt_logs.json` servent de base aux revues quotidiennes.
+
+## Démos rapides
+
 ```bash
+# Build & lancer la boucle C++ (nécessite g++)
 g++ -std=c++17 code/main.cpp -o build/arm_control && build/arm_control
-```
 
-### Python (digital twin)
-```bash
+# Vérifier le jumeau numérique et exporter un reporting
 python code/digital_twin.py --cycles 3 --export tests/trajectory_report.csv
-```
 
-### COBOL (KPI industriels)
-```bash
+# Consolider les KPI par shift
 cobc -x -free code/factory_kpi.cbl -o build/factory_kpi && build/factory_kpi
-```
 
-### Prolog (diagnostics experts)
-```bash
+# Générer un planning maintenance 7 jours
+cobc -x -free code/maintenance_scheduler.cbl -o build/maintenance_scheduler && build/maintenance_scheduler
+
+# Exécuter les règles expertes
 swipl -q -f code/diagnostics.pl -g run_diagnostics -t halt
+swipl -q -f code/process_planner.pl -g run_process_planner -t halt
 ```
 
-## Prochaines étapes suggérées
-- Connecter `code/main.cpp` à la vraie passerelle MQTT (mosquitto, Azure IoT, etc.).
-- Remplacer les profils statiques par des mesures captées sur le STM32F4.
-- Étendre `digital_twin.py` pour exporter des trajectoires MoveIt! et ROS 2.
+## Organisation
 
----
-*Révision import médias : novembre 2025. Toute image reste propriété de l’auteur du projet Hackaday référencé.*
+- `cad/` : plans mécaniques livrés à Mechatronic Solution.
+- `code/` : sources multi-langages (C++/Python/COBOL/Prolog) + configurations.
+- `docs/images/` : galerie montage + détails composants.
+- `docs/reference/` : dossier d’inspiration hors-ligne et notes d’atelier.
+- `tests/` : captures MQTT, rapports CSV issus du jumeau numérique, scripts QA.
+
+## Feuille de route
+- Intégrer les courbes issues du STM32F4 dans la boucle C++ (remplacer les profils statiques).
+- Ajouter l’interface ROS 2 / MoveIt! côté Python pour générer des tickets trajectoire.
+- Coupler COBOL aux journaux réels MES (format OPC-UA/CSV) et déployer les règles Prolog dans un microservice SWI.
+- Capitaliser la galerie photo dans Confluence Mechatronic Solution avec les check-lists d’assemblage.

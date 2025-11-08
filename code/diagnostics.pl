@@ -4,6 +4,7 @@
 :- module(diagnostics, [
     fault/1,
     advise/2,
+    severity/2,
     run_diagnostics/0
 ]).
 
@@ -27,6 +28,11 @@ sensor_range(force_ratio, wrist, range(0.05, 0.25)).
 
 sensor_range(encoder_noise, base, range(0.0, 0.02)).
 sensor_range(encoder_noise, elbow, range(0.0, 0.03)).
+sensor_range(vibration, shoulder, range(0.0, 1.5)).   % gRMS
+sensor_range(vibration, elbow, range(0.0, 1.2)).
+sensor_range(bus_voltage, powertrain, range(47.5, 51.5)).
+sensor_range(humidity, enclosure, range(20, 65)).
+sensor_range(cycle_time, cell, range(0, 2.0)).        % secondes
 
 % Observations instantanées (à remplacer par des faits générés depuis MQTT ou ROS).
 reading(temp, base, 72).
@@ -44,6 +50,11 @@ reading(force_ratio, wrist, 0.22).
 
 reading(encoder_noise, base, 0.018).
 reading(encoder_noise, elbow, 0.05).
+reading(vibration, shoulder, 1.7).
+reading(vibration, elbow, 1.3).
+reading(bus_voltage, powertrain, 46.2).
+reading(humidity, enclosure, 72).
+reading(cycle_time, cell, 2.3).
 
 % --- Règles de décision ------------------------------------------------------
 
@@ -67,6 +78,32 @@ fault(encoder_drift(Joint)) :-
     out_of_range(encoder_noise, Joint, Value, range(_, Max)),
     Value > Max.
 
+fault(vibration_spike(Joint)) :-
+    out_of_range(vibration, Joint, Value, range(_, Max)),
+    Value > Max.
+
+fault(bus_voltage_drop) :-
+    out_of_range(bus_voltage, powertrain, Value, range(Min, _)),
+    Value < Min.
+
+fault(condensation_risk) :-
+    out_of_range(humidity, enclosure, Value, range(_, Max)),
+    Value > Max.
+
+fault(cycle_time_regression(Delta)) :-
+    reading(cycle_time, cell, Value),
+    sensor_range(cycle_time, cell, range(_, Max)),
+    Value > Max,
+    Delta is Value - Max.
+
+fault(thermal_chain(shoulder_elbow)) :-
+    fault(overtemp(shoulder)),
+    fault(overtemp(elbow)).
+
+fault(powertrain_combo) :-
+    fault(bus_voltage_drop),
+    fault(vibration_spike(shoulder)).
+
 advise(overtemp(Joint),
        ['Réduire le duty-cycle 20% et vérifiez la ventilation sur ', Joint]).
 
@@ -79,15 +116,56 @@ advise(torque_offset(Joint),
 advise(encoder_drift(Joint),
        ['Vérifier le câblage différentiel et réaligner le codeur de ', Joint, '.']).
 
+advise(vibration_spike(Joint),
+       ['Inspecter la visserie et équilibrer la charge sur ', Joint, '.']).
+
+advise(bus_voltage_drop,
+       ['Contrôler l\'alimentation 48V et recalibrer l\'ODrive.']).
+
+advise(condensation_risk,
+       ['Fermer la baie, activer le déshumidificateur de l\'enclosure.']).
+
+advise(cycle_time_regression(Delta),
+       ['Temps de cycle dépassé de ', Delta, ' s -> revoir trajectoire ou charge utile.']).
+
+advise(thermal_chain(shoulder_elbow),
+       ['Enchaînement thermique sur axes 2/3 -> lancer refroidissement forcé.']).
+
+advise(powertrain_combo,
+       ['Baisse tension + vibrations -> audit complet ODrive/BLDC.']).
+
 advise(_, ['Consulter la documentation maintenance.']).
 
+severity(overtemp(_), critical).
+severity(force_drop(_), major).
+severity(torque_offset(_), major).
+severity(encoder_drift(_), major).
+severity(vibration_spike(_), major).
+severity(bus_voltage_drop, critical).
+severity(condensation_risk, warning).
+severity(cycle_time_regression(_), warning).
+severity(thermal_chain(_), critical).
+severity(powertrain_combo, critical).
+severity(_, info).
+
+severity_value(critical, 1).
+severity_value(major, 2).
+severity_value(warning, 3).
+severity_value(info, 4).
+
 run_diagnostics :-
-    findall(F, fault(F), Faults),
-    ( Faults == [] ->
+    findall(Priority-Fault,
+        (fault(Fault),
+         severity(Fault, Level),
+         severity_value(Level, Priority)),
+        Raw),
+    ( Raw == [] ->
         writeln('Aucun défaut détecté, tous les capteurs sont dans la plage.')
-    ;   writeln('Défauts détectés :'),
-        forall(member(F, Faults),
-            (   format(' - ~w~n', [F]),
+    ;   sort(Raw, SortedAscending),
+        writeln('Défauts détectés (ordre critique) :'),
+        forall(member(_-F, SortedAscending),
+            (   severity(F, Level),
+                format(' - (~w) ~w~n', [Level, F]),
                 advise(F, Advice),
                 atomic_list_concat(Advice, '', Message),
                 format('    ⇒ ~w~n', [Message])
