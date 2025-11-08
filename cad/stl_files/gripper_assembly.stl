@@ -1,0 +1,84 @@
+# STL File: End Effector Gripper
+# Atlas 6-DOF Robot Arm - Gripper Assembly
+# Material: PLA+ (3D Printed)
+# Gripper Type: Parallel jaw with FSR feedback
+# Max Opening: 80mm, Force: 50N
+
+solid gripper_base
+  # Main body
+  facet normal 0.0 0.0 1.0
+    outer loop
+      vertex 0.0 0.0 0.0
+      vertex 60.0 0.0 0.0
+      vertex 60.0 40.0 0.0
+    endloop
+  endfacet
+  
+  # Servo mounting holes
+  facet normal 0.0 0.0 -1.0
+    outer loop
+      vertex 30.0 20.0 25.0
+      vertex 32.0 20.0 25.0
+      vertex 32.0 22.0 25.0
+    endloop
+  endfacet
+  
+  # Linear guide rails
+  facet normal 1.0 0.0 0.0
+    outer loop
+      vertex 60.0 5.0 5.0
+      vertex 60.0 35.0 5.0
+      vertex 60.0 35.0 8.0
+    endloop
+  endfacet
+  
+  # FSR sensor mounting
+  facet normal 0.0 1.0 0.0
+    outer loop
+      vertex 50.0 40.0 10.0
+      vertex 55.0 40.0 10.0
+      vertex 55.0 40.0 15.0
+    endloop
+  endfacet
+  
+endsolid gripper_base
+
+solid gripper_finger_left
+  # Finger body
+  facet normal 0.0 0.0 1.0
+    outer loop
+      vertex 0.0 0.0 0.0
+      vertex 40.0 0.0 0.0
+      vertex 40.0 15.0 0.0
+    endloop
+  endfacet
+  
+  # Grip surface (textured)
+  facet normal 1.0 0.0 0.0
+    outer loop
+      vertex 40.0 0.0 0.0
+      vertex 40.0 0.0 20.0
+      vertex 40.0 2.0 20.0
+    endloop
+  endfacet
+  
+endsolid gripper_finger_left
+
+solid gripper_finger_right
+  # Mirror of left finger
+  facet normal 0.0 0.0 1.0
+    outer loop
+      vertex 0.0 0.0 0.0
+      vertex -40.0 0.0 0.0
+      vertex -40.0 15.0 0.0
+    endloop
+  endfacet
+  
+endsolid gripper_finger_right
+
+# Assembly Notes:
+# - Linear bearings: LM8UU (8mm shaft)
+# - Servo motor: MG996R (20kg.cm torque)
+# - FSR sensors: Interlink 402 (0.2-20N range)
+# - Lead screw: M6x1.0 thread, 40mm travel
+# - Material: PLA+ for durability and precision

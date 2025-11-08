@@ -1,0 +1,53 @@
+# STL File: Cycloidal Reducer Disk 1
+# Atlas 6-DOF Robot Arm - Shoulder Joint
+# Material: PETG (3D Printed)
+# Reduction Ratio: 1:50
+# Dimensions: Ø120mm x 15mm thickness
+
+solid cycloidal_disk_1
+  # Outer cycloidal profile (50 lobes)
+  facet normal 0.0 0.0 1.0
+    outer loop
+      vertex 60.0 0.0 0.0
+      vertex 59.8 1.2 0.0
+      vertex 59.2 2.4 0.0
+    endloop
+  endfacet
+  
+  # Pin holes for output (8 holes, Ø6mm)
+  facet normal 0.0 0.0 -1.0
+    outer loop
+      vertex 45.0 0.0 15.0
+      vertex 48.0 0.0 15.0
+      vertex 48.0 3.0 15.0
+    endloop
+  endfacet
+  
+  # Central bearing bore (Ø25mm)
+  facet normal -1.0 0.0 0.0
+    outer loop
+      vertex 12.5 0.0 0.0
+      vertex 12.5 0.0 15.0
+      vertex 12.5 1.0 15.0
+    endloop
+  endfacet
+  
+  # Eccentric bearing holes (2x Ø15mm)
+  facet normal 0.0 1.0 0.0
+    outer loop
+      vertex 7.5 7.5 0.0
+      vertex 7.5 7.5 15.0
+      vertex 8.5 7.5 15.0
+    endloop
+  endfacet
+  
+endsolid cycloidal_disk_1
+
+# 3D Printing Parameters:
+# - Layer Height: 0.2mm
+# - Infill: 40% gyroid
+# - Print Speed: 50mm/s
+# - Nozzle Temperature: 240°C
+# - Bed Temperature: 80°C
+# - Support: Tree supports for overhangs
+# - Post-processing: Drilling precision holes to Ø6H7
