@@ -387,4 +387,3 @@ cd mechatronic-robot-arm-control
 - **Makefile** - Build firmware STM32
 - **.gitignore** - Exclusions versioning
 
-Cette structure reflète un projet industriel complet, de la conception à la production, avec une approche méthodologique rigoureuse et une documentation exhaustive.

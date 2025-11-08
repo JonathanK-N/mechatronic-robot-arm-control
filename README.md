@@ -9,10 +9,10 @@
 <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&duration=2000&pause=800&color=F75C7E&center=true&vCenter=true&width=700&lines=Innovation+M%C3%A9catronique+Industrielle;Bras+6-DOF+Haute+Pr%C3%A9cision;Contr%C3%B4le+Temps+R%C3%A9el+50Hz;Intelligence+Artificielle+Int%C3%A9gr%C3%A9e;5+Mois+de+D%C3%A9veloppement+Intensif;15k%E2%82%AC+Budget+Respect%C3%A9;Pr%C3%A9cision+%C2%B10.22mm+Atteinte;ROI+Client+14+Mois" alt="Typing SVG" />
 
 <div align="center">
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=JonathanKakesa&theme=react-dark&hide_border=true&area=true&custom_title=Atlas%20Development%20Activity" alt="Development Activity" />
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=JonathanK-N&theme=react-dark&hide_border=true&area=true&custom_title=Atlas%20Development%20Activity" alt="Development Activity" />
 </div>
 
-[![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red.svg?style=for-the-badge)](https://github.com/JonathanKakesa)
+[![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red.svg?style=for-the-badge)](https://github.com/JonathanK-N)
 [![C++17](https://img.shields.io/badge/C++-17-blue.svg?style=for-the-badge&logo=cplusplus)](https://isocpp.org/)
 [![Python](https://img.shields.io/badge/Python-3.11-green.svg?style=for-the-badge&logo=python)](https://python.org/)
 [![COBOL](https://img.shields.io/badge/COBOL-GnuCOBOL-orange.svg?style=for-the-badge)](https://gnucobol.sourceforge.io/)
@@ -20,7 +20,7 @@
 
 <img src="https://github-readme-stats.vercel.app/api?username=JonathanKakesa&show_icons=true&theme=react&hide_border=true&title_color=F75C7E&icon_color=4ECDC4&text_color=333&bg_color=ffffff" alt="GitHub Stats" />
 
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=JonathanKakesa&layout=compact&theme=react&hide_border=true&title_color=F75C7E&text_color=333&bg_color=ffffff" alt="Top Languages" />
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=JonathanK-N&layout=compact&theme=react&hide_border=true&title_color=F75C7E&text_color=333&bg_color=ffffff" alt="Top Languages" />
 
 </div>
 
@@ -41,7 +41,7 @@
 > 🎯 **Mission**: Doter l'atelier d'un bras **6 DOF** prêt à être déployé sur ligne automobile
 
 <div align="center">
-<img src="https://github.com/JonathanKakesa/mechatronic-robot-arm-control/blob/main/docs/images/progress_bar.gif?raw=true" width="600" alt="Progress Animation"/>
+<img src="https://github.com/JonathanK-N/mechatronic-robot-arm-control/blob/main/docs/images/progress_bar.gif?raw=true" width="600" alt="Progress Animation"/>
 </div>
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/jonathan-kakesa)
@@ -63,10 +63,10 @@
 | 🏭 Disponibilité ligne (OEE) | `97.2%` | `≥ 95%` | 🟢 **EXCELLENT** | ![](https://progress-bar.dev/102/?scale=100&title=+2.3%25&width=100&color=00ff00) |
 
 <div align="center">
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=JonathanKakesa&theme=react-dark&hide_border=true&fire=FF6B6B&ring=4ECDC4&currStreakLabel=4ECDC4" alt="Development Streak" />
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=JonathanK-N&theme=react-dark&hide_border=true&fire=FF6B6B&ring=4ECDC4&currStreakLabel=4ECDC4" alt="Development Streak" />
 </div>
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=JonathanKakesa&theme=react-dark&hide_border=true&area=true&custom_title=Atlas%20Development%20Timeline" alt="Development Timeline" />
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=JonathanK-N&theme=react-dark&hide_border=true&area=true&custom_title=Atlas%20Development%20Timeline" alt="Development Timeline" />
 
 <div align="center">
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=Atlas%206-DOF&fontSize=40&fontAlignY=35&desc=Innovation%20M%C3%A9catronique%20Industrielle&descAlignY=55&descAlign=50" />
@@ -237,7 +237,7 @@ graph TB
 
 #### Logiciels Utilisés
 - **CAO Principal**: SolidWorks 2024 Premium
-- **Simulation**: ANSYS Workbench pour FEA
+- **Simulation**: ANSYS Workbench pour FEA, Similink MATLAB
 - **Rendu**: KeyShot pour visualisations
 - **Documentation**: DriveWorks pour automatisation
 
@@ -438,7 +438,7 @@ graph TB
 <table>
 <tr>
 <td align="center">
-<img src="docs/images/atlas_hero.png" width="250px" alt="Vue d'ensemble"/><br/>
+<img src="docs/images/Front.jpg" width="250px" alt="Vue d'ensemble"/><br/>
 <b>🦾 Vue d'Ensemble</b><br/>
 <sub>Configuration 6-DOF complète</sub>
 </td>
@@ -448,15 +448,15 @@ graph TB
 <sub>Impression 3D haute précision</sub>
 </td>
 <td align="center">
-<img src="docs/images/atlas_odrive.png" width="250px" alt="Électronique"/><br/>
+<img src="docs/images/Encoders setup.png" width="250px" alt="Électronique"/><br/>
 <b>🔌 Contrôleur ODrive</b><br/>
 <sub>Driver BLDC haute performance</sub>
 </td>
 </tr>
 <tr>
 <td align="center">
-<img src="docs/images/atlas_encoder_stack.jpeg" width="250px" alt="Encodeurs"/><br/>
-<b>📏 Stack Encodeurs</b><br/>
+<img src="docs/images/Axis 2 cycloidal reducer exploded.png" width="250px" alt="Encodeurs"/><br/>
+<b>📏 cycloidal reducer exploded</b><br/>
 <sub>Absolus 14-bit SPI</sub>
 </td>
 <td align="center">
@@ -465,7 +465,7 @@ graph TB
 <sub>Pince FSR adaptative</sub>
 </td>
 <td align="center">
-<img src="docs/images/atlas_wrist.png" width="250px" alt="Poignet"/><br/>
+<img src="docs/images/Dimensions.png" width="250px" alt="Poignet"/><br/>
 <b>🔄 Assemblage Poignet</b><br/>
 <sub>3 axes intégrés</sub>
 </td>
@@ -620,19 +620,19 @@ swipl -q -f code/process_planner.pl -g "run_process_planner" -t halt
 | 🎯 **Phase** | 📅 **Timeline** | 🚀 **Objectifs Techniques** | 📊 **Status** | 💰 **Budget** |
 |-------------|----------------|------------------------------|---------------|---------------|
 | **Phase 1** | 5-19 Août 2025 | 🔍 Analyse + Conception CAO | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 2k€ |
-| **Phase 2** | 20 Août - 10 Sept | 🎨 Modélisation 3D + Simulations | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 1.5k€ |
-| **Phase 3** | 11-25 Sept 2025 | 🔌 Électronique + PCB | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 3k€ |
-| **Phase 4** | 26 Sept - 20 Oct | 💻 Programmation système | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 2k€ |
-| **Phase 5** | 21 Oct - 15 Nov | 🏭 Fabrication + Assemblage | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 4k€ |
-| **Phase 6** | 16 Nov - 20 Déc | 🧪 Tests + Validation | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 1.5k€ |
-| **Phase 7** | 21 Déc - 5 Jan 2026 | 🚀 Optimisation + Déploiement | ![95%](https://progress-bar.dev/95/?scale=100&title=Final&width=120&color=ff9500) | 1k€ |
+| **Phase 2** | 20 Août - 10 Sept | 🎨 Modélisation 3D + Simulations | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 1.5k$ |
+| **Phase 3** | 11-25 Sept 2025 | 🔌 Électronique + PCB | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 3k$ |
+| **Phase 4** | 26 Sept - 20 Oct | 💻 Programmation système | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 2k$ |
+| **Phase 5** | 21 Oct - 15 Nov | 🏭 Fabrication + Assemblage | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 4k$ |
+| **Phase 6** | 16 Nov - 20 Déc | 🧪 Tests + Validation | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 1.5k$ |
+| **Phase 7** | 21 Déc - 5 Jan 2026 | 🚀 Optimisation + Déploiement | ![95%](https://progress-bar.dev/95/?scale=100&title=Final&width=120&color=ff9500) | 1k$ |
 
-**💰 Budget Total**: 15k€ (respecté) ![Budget](https://img.shields.io/badge/Budget-15k€-success?style=flat-square)  
+**💰 Budget Total**: 15k$ (respecté) ![Budget](https://img.shields.io/badge/Budget-15k€-success?style=flat-square)  
 **⏱️ Durée**: 5 mois (153 jours) ![Duration](https://img.shields.io/badge/Durée-153%20jours-blue?style=flat-square)  
 **👥 Équipe**: 1 stagiaire + 2 encadrants ![Team](https://img.shields.io/badge/Équipe-3%20personnes-orange?style=flat-square)
 
 <div align="center">
-<img src="https://github-profile-trophy.vercel.app/api/?username=JonathanKakesa&theme=radical&no-frame=true&no-bg=false&margin-w=4" alt="Achievements" />
+<img src="https://github-profile-trophy.vercel.app/api/?username=JonathanK-N&theme=radical&no-frame=true&no-bg=false&margin-w=4" alt="Achievements" />
 </div>
 
 </div>
@@ -657,7 +657,7 @@ swipl -q -f code/process_planner.pl -g "run_process_planner" -t halt
 ![Tests](https://img.shields.io/badge/Tests-98%25%20Pass-success?style=for-the-badge)
 ![Documentation](https://img.shields.io/badge/Docs-Complete-informational?style=for-the-badge)
 
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=JonathanKakesa&theme=radical&hide_border=true" alt="Streak Stats" />
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=JonathanK-N&theme=radical&hide_border=true" alt="Streak Stats" />
 
 </div>
 
@@ -669,13 +669,13 @@ swipl -q -f code/process_planner.pl -g "run_process_planner" -t halt
 |-----------------|--------------|--------------|---------------------|
 | 🎯 **Précision** | ±0.8mm | ±0.4mm | **+50%** |
 | ⚡ **Vitesse Cycle** | 2.4s | 1.8s | **+25%** |
-| 💰 **Coût/Pièce** | 0.45€ | 0.32€ | **-29%** |
+| 💰 **Coût/Pièce** | 0.45$ | 0.32$ | **-29%** |
 | 🔧 **Downtime** | 12% | 8% | **-33%** |
 | ⚡ **Consommation** | 2.1kW | 1.6kW | **-24%** |
 | 👥 **Productivité** | 850 pcs/shift | 1200 pcs/shift | **+41%** |
 
 **💰 ROI Projeté**: 18 mois  
-**💵 Économies Annuelles**: 85k€  
+**💵 Économies Annuelles**: 85k$  
 **🏭 Impact OEE**: +6 points
 
 </div>
@@ -720,10 +720,10 @@ swipl -q -f code/process_planner.pl -g "run_process_planner" -t halt
 <div align="center">
 
 ![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FJonathanKakesa%2Fmechatronic-robot-arm-control&label=Visiteurs&countColor=%23263759&style=flat)
-![Stars](https://img.shields.io/github/stars/JonathanKakesa/mechatronic-robot-arm-control?style=social)
-![Forks](https://img.shields.io/github/forks/JonathanKakesa/mechatronic-robot-arm-control?style=social)
-![Issues](https://img.shields.io/github/issues/JonathanKakesa/mechatronic-robot-arm-control)
-![License](https://img.shields.io/github/license/JonathanKakesa/mechatronic-robot-arm-control)
+![Stars](https://img.shields.io/github/stars/JonathanK-N/mechatronic-robot-arm-control?style=social)
+![Forks](https://img.shields.io/github/forks/JonathanK-N/mechatronic-robot-arm-control?style=social)
+![Issues](https://img.shields.io/github/issues/JonathanK-N/mechatronic-robot-arm-control)
+![License](https://img.shields.io/github/license/JonathanK-N/mechatronic-robot-arm-control)
 
 </div>
 

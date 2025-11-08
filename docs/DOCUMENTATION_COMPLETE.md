@@ -13,7 +13,7 @@ Ce document retrace l'intégralité du développement du bras robotique Atlas 6-
 #### Contexte Mechatronic Solution
 - **Secteur** : Automatisation industrielle automobile
 - **Problématique** : Besoin d'un bras robotique précis et économique
-- **Contraintes** : Budget 15k€, délai 5 mois, précision ±0.3mm
+- **Contraintes** : Budget 15k$, délai 5 mois, précision ±0.3mm
 
 #### Cahier des Charges Fonctionnel
 ```
@@ -24,17 +24,17 @@ Spécifications Techniques :
 ├── Vitesse : Cycle pick/place <1.5s
 ├── DOF : 6 axes de rotation
 ├── Alimentation : 24VDC, <2kW
-├── Communication : CAN bus, Ethernet
+├── Communication : CAN bus, Ethernet, Wlan
 └── Sécurité : Catégorie 3 ISO 13849
 ```
 
 #### Étude de Marché Concurrentiel
 | Robot | Prix | Charge | Précision | Avantages | Inconvénients |
 |-------|------|--------|-----------|-----------|---------------|
-| UR5e | 35k€ | 5kg | ±0.1mm | Collaborative | Coût élevé |
-| KUKA iiwa | 45k€ | 7kg | ±0.1mm | Très précis | Complexe |
-| ABB YuMi | 40k€ | 0.5kg | ±0.02mm | Dual arm | Charge faible |
-| **Atlas** | 15k€ | 3kg | ±0.3mm | Économique | Nouveau |
+| UR5e | 35k$ | 5kg | ±0.1mm | Collaborative | Coût élevé |
+| KUKA iiwa | 45k$ | 7kg | ±0.1mm | Très précis | Complexe |
+| ABB YuMi | 40k$ | 0.5kg | ±0.02mm | Dual arm | Charge faible |
+| **Atlas** | 15k$ | 7kg | ±0.3mm | Économique | Nouveau |
 
 ### 🎨 1.2 Conception Architecturale
 
@@ -72,7 +72,7 @@ Joint 6 (Wrist 3)  : Rotation Z (±360°)
 
 #### Logiciels Utilisés
 - **CAO Principal** : SolidWorks 2024 Premium
-- **Simulation** : ANSYS Workbench 2024 R1
+- **Simulation** : ANSYS Workbench 2024 R1, Similink MATLAB
 - **Rendu** : KeyShot 12 Pro
 - **Gestion données** : PDM Professional
 
@@ -102,7 +102,7 @@ Conception Paramétrique :
 #### Analyse par Éléments Finis (FEA)
 ```
 Conditions de Simulation :
-├── Charge : 5kg à extension maximale
+├── Charge : 7kg à extension maximale
 ├── Facteur sécurité : 3
 ├── Maillage : Tétraédrique 2mm
 ├── Matériau : Propriétés réelles Al 6061-T6
@@ -131,7 +131,7 @@ STM32F407VGT6 - Justification :
 ├── Performance : 168 MHz, 210 DMIPS
 ├── FPU : Calculs cinématiques temps réel
 ├── Timers : 14x pour PWM/encodeurs
-├── Communication : CAN, Ethernet, USB
+├── Communication : CAN, Ethernet, USB, Wlan
 ├── Mémoire : 1MB Flash, 192KB RAM
 └── Coût : 12.50€ (excellent rapport perf/prix)
 ```
@@ -657,23 +657,23 @@ Tests d'Acceptation Usine (21-31 Décembre 2025) :
 ### 💰 Analyse Financière
 ```
 Coûts Développement :
-├── Matériaux/Composants : 8,500€
-├── Outillage/Équipement : 2,800€  
-├── Temps ingénieur (5 mois) : 3,200€
-├── Tests/Validation : 500€
-└── Total Développement : 15,000€
+├── Matériaux/Composants : 8,500$
+├── Outillage/Équipement : 2,800$  
+├── Temps ingénieur (5 mois) : 3,200$
+├── Tests/Validation : 500$
+└── Total Développement : 15,000$
 
 Coûts Production (série 10 unités) :
-├── Matières premières : 4,200€/unité
-├── Fabrication/Assemblage : 1,800€/unité
-├── Test/Qualification : 300€/unité
-└── Coût Production : 6,300€/unité
+├── Matières premières : 4,200$/unité
+├── Fabrication/Assemblage : 1,800$/unité
+├── Test/Qualification : 300$/unité
+└── Coût Production : 6,300$/unité
 
 ROI Client :
-├── Économies main d'œuvre : 45,000€/an
-├── Amélioration qualité : 12,000€/an
-├── Réduction rebuts : 8,000€/an
-├── Total économies : 65,000€/an
+├── Économies main d'œuvre : 45,000$/an
+├── Amélioration qualité : 12,000$/an
+├── Réduction rebuts : 8,000$/an
+├── Total économies : 65,000$/an
 └── Retour investissement : 14 mois
 ```
 
@@ -681,7 +681,7 @@ ROI Client :
 | Objectif | Planifié | Réalisé | Écart |
 |----------|----------|---------|-------|
 | Délai projet | 5 mois | 5 mois | ✅ 0% |
-| Budget développement | 15k€ | 15k€ | ✅ 0% |
+| Budget développement | 15k$ | 15k$ | ✅ 0% |
 | Précision | ±0.3mm | ±0.22mm | ✅ +27% |
 | Vitesse | 1.8s | 1.65s | ✅ +8% |
 | Fiabilité | 95% | 97.2% | ✅ +2.3% |
@@ -725,8 +725,8 @@ Q3-Q4 2026 - Industrialisation :
 ```
 
 ### 🌍 Impact Industriel Attendu
-- **Marché cible** : 500M€ (robotique industrielle Europe)
-- **Part de marché visée** : 2% d'ici 2028 (10M€ CA)
+- **Marché cible** : 500M$ (robotique industrielle Europe)
+- **Part de marché visée** : 2% d'ici 2028 (10M$ CA)
 - **Emplois créés** : 25 postes directs + 75 indirects
 - **Brevets additionnels** : 5-8 innovations protégées
 

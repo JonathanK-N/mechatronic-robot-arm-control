@@ -400,4 +400,3 @@ void test_encoder_inputs() {
 - **Test/validation** : 8€/carte
 - **Coût total** : 83€/carte (série de 50)
 
-Cette carte mère représente le cœur technologique du système Atlas, intégrant toutes les fonctionnalités nécessaires pour un contrôle temps réel haute performance du bras robotique 6-DOF.

@@ -26,7 +26,7 @@
 ### 🎨 Animations de Frappe (Typing SVG)
 ```markdown
 <!-- Animation titre principal -->
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2000&pause=800&color=F75C7E&center=true&vCenter=true&width=800&lines=🦾+Atlas+6-DOF+Robot+Arm;Innovation+Mécatronique+Industrielle;Bras+Robotique+Haute+Précision;Contrôle+Temps+Réel+50Hz;Intelligence+Artificielle+Intégrée;5+Mois+de+Développement;Budget+15k€+Respecté;Précision+±0.22mm+Atteinte;ROI+Client+14+Mois;Prêt+pour+Production!" alt="Atlas Typing Animation" />
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2000&pause=800&color=F75C7E&center=true&vCenter=true&width=800&lines=🦾+Atlas+6-DOF+Robot+Arm;Innovation+Mécatronique+Industrielle;Bras+Robotique+Haute+Précision;Contrôle+Temps+Réel+50Hz;Intelligence+Artificielle+Intégrée;5+Mois+de+Développement;Précision+±0.22mm+Atteinte;Prêt+pour+Production!" alt="Atlas Typing Animation" />
 
 <!-- Animation sous-titre -->
 <img src="https://readme-typing-svg.herokuapp.com?font=Roboto&size=18&duration=3000&pause=1000&color=4ECDC4&center=true&vCenter=true&width=600&lines=Développé+chez+Mechatronic+Solution;Polytechnique+Montréal;Août+2025+→+Janvier+2026;Jonathan+Kakesa+Nayaba" alt="Subtitle Animation" />
@@ -47,25 +47,25 @@ Phase 6 - Tests: ![Progress](https://progress-bar.dev/100/?scale=100&title=Compl
 Phase 7 - Déploiement: ![Progress](https://progress-bar.dev/95/?scale=100&title=Final&width=300&color=ff9500)
 
 <!-- Graphique activité GitHub -->
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=JonathanKakesa&theme=react-dark&hide_border=true&area=true&custom_title=Atlas%20Development%20Activity&height=300" alt="Development Activity" />
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=JonathanK-N&theme=react-dark&hide_border=true&area=true&custom_title=Atlas%20Development%20Activity&height=300" alt="Development Activity" />
 
 <!-- Statistiques GitHub -->
-<img src="https://github-readme-stats.vercel.app/api?username=JonathanKakesa&show_icons=true&theme=react&hide_border=true&title_color=F75C7E&icon_color=4ECDC4&text_color=333&bg_color=ffffff&custom_title=Atlas%20Project%20Stats" alt="Project Stats" />
+<img src="https://github-readme-stats.vercel.app/api?username=JonathanK-N&show_icons=true&theme=react&hide_border=true&title_color=F75C7E&icon_color=4ECDC4&text_color=333&bg_color=ffffff&custom_title=Atlas%20Project%20Stats" alt="Project Stats" />
 
 <!-- Langages utilisés -->
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=JonathanKakesa&layout=compact&theme=react&hide_border=true&title_color=F75C7E&text_color=333&bg_color=ffffff&custom_title=Technologies%20Atlas" alt="Technologies" />
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=JonathanK-N&layout=compact&theme=react&hide_border=true&title_color=F75C7E&text_color=333&bg_color=ffffff&custom_title=Technologies%20Atlas" alt="Technologies" />
 ```
 
 ### 🏆 Trophées et Achievements
 ```markdown
 <!-- Trophées GitHub -->
-<img src="https://github-profile-trophy.vercel.app/api/?username=JonathanKakesa&theme=radical&no-frame=true&no-bg=false&margin-w=4&title=Stars,Followers,Commits,Repositories,MultipleLang" alt="Achievements" />
+<img src="https://github-profile-trophy.vercel.app/api/?username=JonathanK-N&theme=radical&no-frame=true&no-bg=false&margin-w=4&title=Stars,Followers,Commits,Repositories,MultipleLang" alt="Achievements" />
 
 <!-- Streak stats -->
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=JonathanKakesa&theme=react-dark&hide_border=true&fire=FF6B6B&ring=4ECDC4&currStreakLabel=4ECDC4&background=0D1117" alt="Development Streak" />
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=JonathanK-N&theme=react-dark&hide_border=true&fire=FF6B6B&ring=4ECDC4&currStreakLabel=4ECDC4&background=0D1117" alt="Development Streak" />
 
 <!-- Contributions snake -->
-<img src="https://github.com/JonathanKakesa/JonathanKakesa/blob/output/github-contribution-grid-snake-dark.svg" alt="Contribution Snake" />
+<img src="https://github.com/JonathanK-N/JonathanK-N/blob/output/github-contribution-grid-snake-dark.svg" alt="Contribution Snake" />
 ```
 
 ### 🎭 Headers et Footers Animés
@@ -131,10 +131,10 @@ graph TB
 <!-- Badges de suivi -->
 ![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FJonathanKakesa%2Fmechatronic-robot-arm-control&label=Visiteurs&countColor=%23263759&style=flat-square&labelColor=%23ff6b6b)
 
-![GitHub followers](https://img.shields.io/github/followers/JonathanKakesa?style=social)
-![GitHub stars](https://img.shields.io/github/stars/JonathanKakesa/mechatronic-robot-arm-control?style=social)
-![GitHub forks](https://img.shields.io/github/forks/JonathanKakesa/mechatronic-robot-arm-control?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/JonathanKakesa/mechatronic-robot-arm-control?style=social)
+![GitHub followers](https://img.shields.io/github/followers/JonathanK-N?style=social)
+![GitHub stars](https://img.shields.io/github/stars/JonathanK-N/mechatronic-robot-arm-control?style=social)
+![GitHub forks](https://img.shields.io/github/forks/JonathanK-N/mechatronic-robot-arm-control?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/JonathanK-N/mechatronic-robot-arm-control?style=social)
 
 <!-- Badges de contact -->
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Jonathan%20Kakesa-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/jonathan-kakesa)
@@ -192,4 +192,3 @@ setInterval(() => {
 }, 300000); // Toutes les 5 minutes
 ```
 
-Cette configuration permet d'avoir un README dynamique, interactif et visuellement attractif qui reflète l'innovation et la qualité technique du projet Atlas.
