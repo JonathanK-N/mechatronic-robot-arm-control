@@ -1,4 +1,27 @@
-% Règles expertes pour qualifier rapidement l'état du bras 4 DOF.
+%
+% ╔══════════════════════════════════════════════════════════════════════════════╗
+% ║                    🦾 ATLAS 6-DOF ROBOT ARM CONTROL SYSTEM                  ║
+% ║                                                                              ║
+% ║  📁 File: diagnostics.pl                                                   ║
+% ║  🎯 Purpose: Expert system for intelligent fault detection and diagnosis  ║
+% ║  👨💻 Author: Jonathan Kakesa Nayaba                                          ║
+% ║  🏫 Institution: Polytechnique Montréal                                      ║
+% ║  🏭 Company: Mechatronic Solution                                            ║
+% ║  📅 Created: 27 octobre 2025                                                            ║
+% ║                                                                              ║
+% ║  🚀 Features:                                                                ║
+% ║    • Real-time sensor monitoring                                          ║
+% ║    • Intelligent fault detection rules                                    ║
+% ║    • Contextual advisory system                                           ║
+% ║    • Severity-based prioritization                                        ║
+% ║    • Multi-sensor correlation analysis                                    ║
+% ║                                                                              ║
+% ║  ⚡ Performance: Real-time expert system                                    ║
+% ║  🔧 Language: Prolog (SWI-Prolog)                                         ║
+% ║  📊 Status: Production Ready                                                 ║
+% ╚══════════════════════════════════════════════════════════════════════════════╝
+%
+% Règles expertes pour qualifier rapidement l'état du bras 6 DOF.
 % Usage : swipl -q -f code/diagnostics.pl -g run_diagnostics -t halt
 
 :- module(diagnostics, [

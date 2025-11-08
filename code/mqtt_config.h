@@ -1,6 +1,27 @@
-/**
- * MQTT + topic helpers for the robot arm simulator.
- */
+/*
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🦾 ATLAS 6-DOF ROBOT ARM CONTROL SYSTEM                  ║
+║                                                                              ║
+║  📁 File: mqtt_config.h                                                     ║
+║  🎯 Purpose: MQTT configuration and topic management for telemetry         ║
+║  👨💻 Author: Jonathan Kakesa Nayaba                                          ║
+║  🏫 Institution: Polytechnique Montréal                                      ║
+║  🏭 Company: Mechatronic Solution                                            ║
+║  📅 Created: 27 octobre 2025                                                             ║
+║                                                                              ║
+║  🚀 Features:                                                                ║
+║    • MQTT broker configuration                                               ║
+║    • Topic hierarchy management                                              ║
+║    • Telemetry and command topics                                            ║
+║    • Connection string generation                                            ║
+║    • Namespace organization                                                  ║
+║                                                                              ║
+║  ⚡ Performance: Lightweight configuration management                         ║
+║  🔧 Language: C++17 Header                                                  ║
+║  📊 Status: Production Ready                                                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+*/
+
 #pragma once
 
 #include <string>

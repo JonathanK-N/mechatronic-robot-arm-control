@@ -1,3 +1,27 @@
+/*
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🦾 6-DOF ROBOT ARM CONTROL SYSTEM                  ║
+║                                                                              ║
+║  📁 File: main.cpp                                                           ║
+║  🎯 Purpose: Real-time control loop with PID and MQTT telemetry             ║
+║  👨‍💻 Author: Jonathan Kakesa Nayaba                                          ║
+║  🏫 Institution: Polytechnique Montréal                                      ║
+║  🏭 Company: Mechatronic Solution                                            ║
+║  📅 Created: 20 septembre 2025                                                            ║
+║                                                                              ║
+║  🚀 Features:                                                                ║
+║    • Real-time 50Hz control loop                                            ║
+║    • Multi-joint PID controllers                                            ║
+║    • MQTT telemetry publishing                                              ║
+║    • Dynamic load profiling                                                 ║
+║    • Trajectory execution engine                                            ║
+║                                                                              ║
+║  ⚡ Performance: 50Hz control frequency                                       ║
+║  🔧 Language: C++17                                                          ║
+║  📊 Status: Production Ready                                                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+*/
+
 #include <algorithm>
 #include <array>
 #include <chrono>

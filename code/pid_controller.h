@@ -1,6 +1,27 @@
-/**
- * Minimal PID controller with anti-windup clamping.
- */
+/*
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🦾 6-DOF ROBOT ARM CONTROL SYSTEM                  ║
+║                                                                              ║
+║  📁 File: pid_controller.h                                                   ║
+║  🎯 Purpose: Template-based PID controller with anti-windup protection     ║
+║  👨💻 Author: Jonathan Kakesa Nayaba                                          ║
+║  🏫 Institution: Polytechnique Montréal                                      ║
+║  🏭 Company: Mechatronic Solution                                            ║
+║  📅 Created: 27 septembre 2025                                                            ║
+║                                                                              ║
+║  🚀 Features:                                                                ║
+║    • Template-based design for flexibility                                  ║
+║    • Anti-windup integral clamping                                          ║
+║    • Configurable gains and limits                                          ║
+║    • Derivative kick prevention                                              ║
+║    • Reset functionality                                                    ║
+║                                                                              ║
+║  ⚡ Performance: Optimized for real-time control                              ║
+║  🔧 Language: C++17 Template                                                 ║
+║  📊 Status: Production Ready                                                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+*/
+
 #pragma once
 
 #include <algorithm>

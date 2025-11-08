@@ -1,4 +1,28 @@
 >>SOURCE FORMAT FREE
+      *****************************************************************
+      *                                                               *
+      *    🦾 ATLAS 6-DOF ROBOT ARM CONTROL SYSTEM                *
+      *                                                               *
+      *  📁 File: factory_kpi.cbl                                   *
+      *  🎯 Purpose: Factory KPI analytics and OEE calculation      *
+      *  👨💻 Author: Jonathan Kakesa Nayaba                          *
+      *  🏫 Institution: Polytechnique Montréal                      *
+      *  🏭 Company: Mechatronic Solution                            *
+      *  📅 Created: 27 octobre 2025                                           *
+      *                                                               *
+      *  🚀 Features:                                                *
+      *    • OEE (Overall Equipment Effectiveness) calculation        *
+      *    • Shift-based performance analysis                        *
+      *    • Energy consumption monitoring                            *
+      *    • Maintenance task scheduling                             *
+      *    • Quality metrics and alerts                             *
+      *                                                               *
+      *  ⚡ Performance: Enterprise-grade analytics                    *
+      *  🔧 Language: COBOL (GnuCOBOL)                              *
+      *  📊 Status: Production Ready                                 *
+      *                                                               *
+      *****************************************************************
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. factory-kpi.
 

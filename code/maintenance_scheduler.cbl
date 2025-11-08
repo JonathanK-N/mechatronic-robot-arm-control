@@ -1,4 +1,28 @@
 >>SOURCE FORMAT FREE
+      *****************************************************************
+      *                                                               *
+      *    🦾 ATLAS 6-DOF ROBOT ARM CONTROL SYSTEM                *
+      *                                                               *
+      *  📁 File: maintenance_scheduler.cbl                         *
+      *  🎯 Purpose: Predictive maintenance scheduling system        *
+      *  👨💻 Author: Jonathan Kakesa Nayaba                          *
+      *  🏫 Institution: Polytechnique Montréal                      *
+      *  🏭 Company: Mechatronic Solution                            *
+      *  📅 Created: 27 octobre 2025                                            *
+      *                                                               *
+      *  🚀 Features:                                                *
+      *    • 7-day maintenance planning                              *
+      *    • Task frequency optimization                             *
+      *    • Resource capacity management                            *
+      *    • Skill-based task assignment                            *
+      *    • Criticality-based prioritization                       *
+      *                                                               *
+      *  ⚡ Performance: Automated scheduling engine                   *
+      *  🔧 Language: COBOL (GnuCOBOL)                              *
+      *  📊 Status: Production Ready                                 *
+      *                                                               *
+      *****************************************************************
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. maintenance-scheduler.
 

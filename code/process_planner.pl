@@ -1,4 +1,27 @@
-% Orchestrateur de processus pour le bras 4 DOF.
+%
+% ╔══════════════════════════════════════════════════════════════════════════════╗
+% ║                    🦾 ATLAS 6-DOF ROBOT ARM CONTROL SYSTEM                  ║
+% ║                                                                              ║
+% ║  📁 File: process_planner.pl                                               ║
+% ║  🎯 Purpose: Intelligent process orchestration and task planning        ║
+% ║  👨💻 Author: Jonathan Kakesa Nayaba                                          ║
+% ║  🏫 Institution: Polytechnique Montréal                                      ║
+% ║  🏭 Company: Mechatronic Solution                                            ║
+% ║  📅 Created: 27 octobre 2025                                                             ║
+% ║                                                                              ║
+% ║  🚀 Features:                                                                ║
+% ║    • Automated process orchestration                                       ║
+% ║    • Constraint-based task planning                                       ║
+% ║    • Station and tool assignment                                           ║
+% ║    • Risk assessment integration                                           ║
+% ║    • Dynamic plan optimization                                            ║
+% ║                                                                              ║
+% ║  ⚡ Performance: Real-time process planning                                 ║
+% ║  🔧 Language: Prolog (SWI-Prolog)                                         ║
+% ║  📊 Status: Production Ready                                                 ║
+% ╚══════════════════════════════════════════════════════════════════════════════╝
+%
+% Orchestrateur de processus pour le bras 6 DOF.
 % Usage : swipl -q -f code/process_planner.pl -g run_process_planner -t halt
 
 :- module(process_planner, [

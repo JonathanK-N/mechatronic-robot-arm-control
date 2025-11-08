@@ -1,6 +1,28 @@
 #!/usr/bin/env python3
 """
-Modèle numérique léger pour le bras 4 DOF.
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🦾 6-DOF ROBOT ARM CONTROL SYSTEM                  ║
+║                                                                              ║
+║  📁 File: digital_twin.py                                                    ║
+║  🎯 Purpose: Digital twin for kinematics validation and trajectory planning  ║
+║  👨💻 Author: Jonathan Kakesa Nayaba                                          ║
+║  🏫 Institution: Polytechnique Montréal                                      ║
+║  🏭 Company: Mechatronic Solution                                            ║
+║  📅 Created: 15 Octobre 2025                                                            ║
+║                                                                              ║
+║  🚀 Features:                                                                ║
+║    • Forward kinematics computation                                          ║
+║    • Workspace validation                                                    ║
+║    • Trajectory planning and optimization                                    ║
+║    • CSV export for MES integration                                          ║
+║    • Joint limits verification                                               ║
+║                                                                              ║
+║  ⚡ Performance: Real-time trajectory validation                              ║
+║  🔧 Language: Python 3.11                                                   ║
+║  📊 Status: Production Ready                                                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Modèle numérique léger pour le bras 6 DOF.
 Il permet de planifier quelques cycles pick/place, de vérifier les limites
 articulaires et d'exporter les trajectoires pour corrélation avec la pile C++.
 """
