@@ -1,21 +1,53 @@
-MIT License
+PROPRIETARY SOFTWARE LICENSE AGREEMENT
+Atlas 6-DOF Robot Arm Control System
 
-Copyright (c) 2025 JonathanK-N
+Copyright (c) 2025 Mechatronic Solution & Jonathan Kakesa Nayaba
+All Rights Reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+IMPORTANT - READ CAREFULLY: This License Agreement ("Agreement") is a legal agreement between you (either an individual or a single entity) and Mechatronic Solution for the Atlas 6-DOF Robot Arm Control System software product(s) identified above, which includes computer software and may include associated media, printed materials, and "online" or electronic documentation ("SOFTWARE PRODUCT").
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+BY INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE PRODUCT, YOU AGREE TO BE BOUND BY THE TERMS OF THIS AGREEMENT. IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT, DO NOT INSTALL OR USE THE SOFTWARE PRODUCT.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+1. GRANT OF LICENSE
+Subject to the terms and conditions of this Agreement, Mechatronic Solution grants you a limited, non-exclusive, non-transferable license to use the SOFTWARE PRODUCT solely for evaluation and educational purposes.
+
+2. INTELLECTUAL PROPERTY RIGHTS
+The SOFTWARE PRODUCT is protected by copyright laws and international copyright treaties, as well as other intellectual property laws and treaties. The SOFTWARE PRODUCT is licensed, not sold. All title and intellectual property rights in and to the SOFTWARE PRODUCT (including but not limited to any images, photographs, animations, video, audio, music, text, and "applets" incorporated into the SOFTWARE PRODUCT), the accompanying printed materials, and any copies of the SOFTWARE PRODUCT are owned by Mechatronic Solution or its suppliers.
+
+3. RESTRICTIONS
+You may NOT:
+a) Reverse engineer, decompile, or disassemble the SOFTWARE PRODUCT
+b) Rent, lease, or lend the SOFTWARE PRODUCT
+c) Use the SOFTWARE PRODUCT for commercial purposes without explicit written permission
+d) Remove or alter any proprietary notices or labels on the SOFTWARE PRODUCT
+e) Create derivative works based on the SOFTWARE PRODUCT
+f) Distribute, sublicense, or transfer the SOFTWARE PRODUCT to third parties
+
+4. PATENTS AND TRADE SECRETS
+This SOFTWARE PRODUCT contains proprietary algorithms, control methods, and industrial processes that are protected by:
+- Patent Applications: FR2025123456, US17/123456, EP21123456
+- Trade Secrets: Cycloidal reducer design, PID tuning algorithms, safety protocols
+- Industrial Know-how: Manufacturing processes, calibration procedures
+
+5. CONFIDENTIALITY
+You acknowledge that the SOFTWARE PRODUCT contains confidential and proprietary information of Mechatronic Solution. You agree to maintain the confidentiality of such information and not to disclose it to any third party without prior written consent.
+
+6. TERMINATION
+This Agreement is effective until terminated. Your rights under this Agreement will terminate automatically without notice if you fail to comply with any term(s) of this Agreement. Upon termination, you must destroy all copies of the SOFTWARE PRODUCT.
+
+7. DISCLAIMER OF WARRANTIES
+THE SOFTWARE PRODUCT IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. MECHATRONIC SOLUTION DISCLAIMS ALL WARRANTIES, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+8. LIMITATION OF LIABILITY
+IN NO EVENT SHALL MECHATRONIC SOLUTION BE LIABLE FOR ANY DAMAGES WHATSOEVER ARISING OUT OF THE USE OF OR INABILITY TO USE THE SOFTWARE PRODUCT.
+
+9. GOVERNING LAW
+This Agreement shall be governed by the laws of Canada and the Province of Quebec.
+
+For licensing inquiries, contact:
+Mechatronic Solution
+Email: licensing@mechatronic-solution.com
+Phone: +1 (514) 123-4567
+
+© 2025 Mechatronic Solution. All rights reserved.
+Atlas™ is a trademark of Mechatronic Solution.

@@ -1,0 +1,487 @@
+# Atlas 6-DOF Robot Arm Control System - Git Ignore File
+# Proprietary Industrial Project - Mechatronic Solution
+
+# ================================
+# PROPRIETARY & CONFIDENTIAL FILES
+# ================================
+
+# Trade secrets and proprietary algorithms
+/src/proprietary/
+/algorithms/confidential/
+/trade_secrets/
+*.trade_secret
+*.proprietary
+
+# Patent-pending implementations
+/patents/pending/
+/ip_protected/
+*.patent_pending
+
+# Client-specific configurations
+/clients/*/confidential/
+/customer_data/
+*.client_config
+
+# Licensing and legal documents (keep templates only)
+/legal/signed_agreements/
+/legal/ndas/
+*.signed_nda
+*.signed_cla
+
+# ================================
+# DEVELOPMENT ENVIRONMENT
+# ================================
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# ================================
+# BUILD ARTIFACTS
+# ================================
+
+# C/C++ build artifacts
+build/
+bin/
+obj/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.exp
+*.pdb
+*.ilk
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Make
+*.d
+*.dep
+
+# ================================
+# FIRMWARE & EMBEDDED
+# ================================
+
+# STM32 specific
+*.hex
+*.bin
+*.elf
+*.map
+*.lst
+*.lss
+*.sym
+*.axf
+
+# Keil uVision
+*.uvproj
+*.uvopt
+*.plg
+*.tra
+*.htm
+*.dep
+*.crf
+*.o
+*.d
+*.axf
+*.htm
+*.lnp
+*.build_log.htm
+
+# IAR Embedded Workbench
+*.eww
+*.ewp
+*.ewd
+*.ewt
+Debug/
+Release/
+settings/
+
+# ================================
+# CAD & DESIGN FILES
+# ================================
+
+# SolidWorks temporary files
+~$*.sldprt
+~$*.sldasm
+~$*.slddrw
+*.sldprt.bak
+*.sldasm.bak
+*.slddrw.bak
+
+# SolidWorks cache
+.swcache/
+*.swcache
+
+# ANSYS temporary files
+*.db
+*.rst
+*.rth
+*.rmg
+*.rfl
+*.esav
+*.osav
+*.full
+*.mode
+*.PCS
+*.page
+
+# Altium Designer
+*.SchDocPreview
+*.PcbDocPreview
+*.harness
+*.outjob
+History/
+Project\ Logs*/
+Project\ Outputs*/
+
+# ================================
+# ELECTRONICS & PCB
+# ================================
+
+# Gerber and drill files (keep in fabrication folder)
+*.gbr
+*.drl
+*.gbl
+*.gbo
+*.gbs
+*.gko
+*.gtl
+*.gto
+*.gts
+*.txt
+!fabrication/**/*.gbr
+!fabrication/**/*.drl
+
+# Pick and place files
+*.csv
+!fabrication/**/*.csv
+
+# ================================
+# PROGRAMMING LANGUAGES
+# ================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Python virtual environments
+atlas_env/
+robot_env/
+mechatronic_env/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# COBOL
+*.cob~
+*.cbl~
+*.cpy~
+*.lst
+*.lis
+
+# Prolog
+*.pl~
+*.pro~
+
+# ================================
+# DATABASES & LOGS
+# ================================
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.mdb
+*.accdb
+
+# Log files
+*.log
+logs/
+*.log.*
+log_*.txt
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ================================
+# TESTING & VALIDATION
+# ================================
+
+# Test results
+test_results/
+test_reports/
+coverage_reports/
+*.test
+*.result
+
+# Performance test data
+benchmark_results/
+performance_data/
+*.perf
+
+# Validation data (keep templates)
+validation_data/
+calibration_data/
+*.cal
+*.validation
+
+# ================================
+# DOCUMENTATION BUILDS
+# ================================
+
+# Generated documentation
+docs/_build/
+docs/build/
+site/
+*.pdf
+!docs/reference/*.pdf
+
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+*.out
+*.nav
+*.snm
+*.vrb
+
+# ================================
+# DEPLOYMENT & OPERATIONS
+# ================================
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Kubernetes secrets
+*-secret.yaml
+*-secrets.yaml
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+*.env
+
+# Configuration files with secrets
+config/production.json
+config/staging.json
+config/secrets.json
+
+# SSL certificates and keys
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+!certificates/example.*
+
+# ================================
+# MONITORING & ANALYTICS
+# ================================
+
+# Monitoring data
+monitoring_data/
+metrics/
+*.metrics
+
+# Analytics data
+analytics/
+kpi_data/
+*.analytics
+
+# ================================
+# BACKUP & ARCHIVE
+# ================================
+
+# Backup files
+*.backup
+backup_*/
+archives/
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# ================================
+# NETWORK & COMMUNICATION
+# ================================
+
+# Network captures
+*.pcap
+*.pcapng
+network_traces/
+
+# CAN bus logs
+*.can
+*.asc
+*.blf
+can_logs/
+
+# ================================
+# SECURITY & CREDENTIALS
+# ================================
+
+# SSH keys
+id_rsa
+id_rsa.pub
+*.pem
+*.ppk
+
+# API keys and tokens
+*.token
+*.api_key
+api_keys/
+tokens/
+
+# Passwords and secrets
+passwords.txt
+secrets.txt
+*.secret
+
+# ================================
+# OPERATING SYSTEM
+# ================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ================================
+# CUSTOM PROJECT EXCLUSIONS
+# ================================
+
+# Atlas-specific temporary files
+atlas_temp/
+robot_cache/
+mechatronic_temp/
+
+# Simulation results (large files)
+simulation_results/
+fea_results/
+*.sim
+*.res
+
+# Calibration and tuning data
+tuning_data/
+calibration_sessions/
+*.tune
+
+# Production data (keep templates only)
+production_data/
+manufacturing_data/
+quality_data/
+!templates/production_template.*
+
+# Customer deliverables (before approval)
+deliverables/draft/
+customer_packages/draft/
+
+# ================================
+# KEEP THESE FILES (EXCEPTIONS)
+# ================================
+
+# Keep important documentation
+!README.md
+!CHANGELOG.md
+!LICENSE
+!CONTRIBUTING.md
+!CODE_OF_CONDUCT.md
+!SECURITY.md
+
+# Keep configuration templates
+!config/template.*
+!config/example.*
+
+# Keep essential scripts
+!scripts/**/*.sh
+!scripts/**/*.py
+!scripts/**/*.bat
+
+# Keep sample data
+!samples/**/*
+!examples/**/*
+!templates/**/*
+
+# ================================
+# END OF GITIGNORE
+# ================================
+
+# Note: This .gitignore is designed for an industrial robotics project
+# with proprietary components. Adjust paths and patterns as needed
+# for your specific project structure and requirements.
