@@ -18,9 +18,7 @@
 [![COBOL](https://img.shields.io/badge/COBOL-GnuCOBOL-orange.svg?style=for-the-badge)](https://gnucobol.sourceforge.io/)
 [![Prolog](https://img.shields.io/badge/Prolog-SWI-purple.svg?style=for-the-badge)](https://www.swi-prolog.org/)
 
-<img src="https://github-readme-stats.vercel.app/api?username=JonathanKakesa&show_icons=true&theme=react&hide_border=true&title_color=F75C7E&icon_color=4ECDC4&text_color=333&bg_color=ffffff" alt="GitHub Stats" />
-
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=JonathanK-N&layout=compact&theme=react&hide_border=true&title_color=F75C7E&text_color=333&bg_color=ffffff" alt="Top Languages" />
+<img src="https://github-readme-stats.vercel.app/api?username=JonathanK-N&show_icons=true&theme=react&hide_border=true&title_color=F75C7E&icon_color=4ECDC4&text_color=333&bg_color=ffffff" alt="GitHub Stats" />
 
 </div>
 
@@ -30,7 +28,7 @@
 
 <div align="center">
 
-<img src="https://avatars.githubusercontent.com/u/placeholder?v=4" width="150" style="border-radius: 50%;" alt="Jonathan Kakesa"/>
+<img src="https://avatars.githubusercontent.com/u/placeholder?v=4" width="150" style="border-radius: 50%;" alt="JonathanK-N"/>
 
 **Jonathan Kakesa Nayaba**  
 *Étudiant en Maîtrise - Génie Mécanique/Mécatronique Industrielle*  
@@ -63,10 +61,7 @@
 | 🏭 Disponibilité ligne (OEE) | `97.2%` | `≥ 95%` | 🟢 **EXCELLENT** | ![](https://progress-bar.dev/102/?scale=100&title=+2.3%25&width=100&color=00ff00) |
 
 <div align="center">
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=JonathanK-N&theme=react-dark&hide_border=true&fire=FF6B6B&ring=4ECDC4&currStreakLabel=4ECDC4" alt="Development Streak" />
 </div>
-
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=JonathanK-N&theme=react-dark&hide_border=true&area=true&custom_title=Atlas%20Development%20Timeline" alt="Development Timeline" />
 
 <div align="center">
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=Atlas%206-DOF&fontSize=40&fontAlignY=35&desc=Innovation%20M%C3%A9catronique%20Industrielle&descAlignY=55&descAlign=50" />
@@ -190,10 +185,6 @@ graph TB
 ## 📋 Documentation Technique Complète
 
 ### 📖 Phase 1: Analyse et Conception (5-19 Août 2025) ✅
-
-<div align="center">
-<img src="https://progress-bar.dev/100/?scale=100&title=Completed&width=400&color=babaca&suffix=%" alt="Phase 1 Progress"/>
-</div>
 
 <details>
 <summary>🔍 <strong>Analyse des Besoins</strong></summary>
@@ -619,7 +610,7 @@ swipl -q -f code/process_planner.pl -g "run_process_planner" -t halt
 
 | 🎯 **Phase** | 📅 **Timeline** | 🚀 **Objectifs Techniques** | 📊 **Status** | 💰 **Budget** |
 |-------------|----------------|------------------------------|---------------|---------------|
-| **Phase 1** | 5-19 Août 2025 | 🔍 Analyse + Conception CAO | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 2k€ |
+| **Phase 1** | 5-19 Août 2025 | 🔍 Analyse + Conception CAO | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 2k$ |
 | **Phase 2** | 20 Août - 10 Sept | 🎨 Modélisation 3D + Simulations | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 1.5k$ |
 | **Phase 3** | 11-25 Sept 2025 | 🔌 Électronique + PCB | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 3k$ |
 | **Phase 4** | 26 Sept - 20 Oct | 💻 Programmation système | ![100%](https://progress-bar.dev/100/?scale=100&title=Done&width=120&color=00ff00) | 2k$ |
